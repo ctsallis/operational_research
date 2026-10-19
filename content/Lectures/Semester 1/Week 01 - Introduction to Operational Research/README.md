@@ -25,9 +25,6 @@ What OR is, where it is used, and a refresher on vectors, matrices and linear (i
 | 3 | `3 Tutorial/Week 1 Tutorial - Introduction to OR.ipynb` | Exercises 1–8: determinants and systems by hand and in Python, plots of the solutions, a feasible region. Exercises 5 and 6 also use [desmos.com](https://www.desmos.com/calculator). Keep the step 2 notebook open for reference. |
 | 4 | `4 Tutorial Answers/Week 1 Tutorial - Answers.ipynb` | Worked answers to Exercises 1–8. Check your work after you have tried them. |
 
-The `(PDF version)` files are printable copies of the notebooks, for reading offline, printed with the notebooks'
-saved outputs. Run the `.ipynb` files to see every result.
-
 ## By the end of this week you can
 
 - explain what Operational Research is and name some places it is used;
@@ -46,12 +43,10 @@ saved outputs. Run the `.ipynb` files to see every result.
 
 ## 2 Lecture Demos
 
-- `1 Vectors and matrices in NumPy (PDF version).pdf`
 - `1 Vectors and matrices in NumPy.ipynb` (notebook)
 
 ## 3 Tutorial
 
-- `Week 1 Tutorial - Introduction to OR (PDF version).pdf`
 - `Week 1 Tutorial - Introduction to OR.ipynb` (notebook)
 
 ## 4 Tutorial Answers
@@ -85,9 +80,9 @@ saved outputs. Run the `.ipynb` files to see every result.
   Exercise 8 slider.
 - **Saved outputs.** The tutorial notebook stores its two example plots (dark background), the slider placeholder
   and the three placeholder prints; the answers notebook stores all its results and plots; the NumPy notebook
-  stores none, so its `(PDF version)` shows code without results.
-- **PDF versions.** The two `(PDF version)` files are printed from the notebooks with their saved outputs (nothing
-  re-run). Re-print them after editing a notebook, with code-cell line wrap on so long lines are not cut off.
+  stores none (students see the results when they run it).
+- The notebooks have no PDF copies: a printout would duplicate the notebook and go out of date when it is edited.
+  To print one, open it and use *File → Print*.
 - The NumPy and tutorial notebooks come from the Colab notebooks *Basic Vector and Matrix Operations in NumPy*
   and *OR Week 1 Tutorial - Introduction to OR*, and print the same results. The versions here add the opening
   "How to use this notebook" cells, explanations, comments and the *Try it* cell, catch the two error examples,
