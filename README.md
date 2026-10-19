@@ -21,7 +21,7 @@ Every week folder has the same layout, used only as far as the week needs it:
 
 | Folder | What is in it | When |
 | --- | --- | --- |
-| `1 Lecture` | Slides (PDF) and lecture notes | The lecture |
+| `1 Lecture` | Slides (PDF, or PowerPoint in Week 02) and lecture notes | The lecture |
 | `2 Lecture Demos` | Notebooks and spreadsheets shown in the lecture, numbered in teaching order | Run live in the lecture |
 | `3 Tutorial` | Tutorial / practical sheet and starter files | The practical |
 | `4 Tutorial Answers` | Worked answers and answer notebooks | Release after the practical |

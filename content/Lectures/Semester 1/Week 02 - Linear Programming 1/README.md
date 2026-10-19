@@ -4,11 +4,11 @@ Formulating linear programmes, solving them graphically, and solving them with S
 
 | Folder | What is in it | When |
 | --- | --- | --- |
-| `1 Lecture` | Slides (PDF) and lecture notes | The lecture |
+| `1 Lecture` | Slides (PowerPoint) | The lecture |
 | `2 Lecture Demos` | Notebooks and spreadsheets shown in the lecture, numbered in teaching order | Run live in the lecture |
-| `3 Tutorial` | Tutorial / practical sheet and any starter files | The practical |
-| `4 Tutorial Answers` | Worked answers and answer notebooks | **Release after the practical** |
-| `5 Source Files` | Editable originals (.pptx, .docx, .md), the scripts the notebooks came from, MATLAB, older versions, staff notes | Staff only |
+| `3 Tutorial` | Tutorial sheet (Word) | The practical |
+| `4 Tutorial Answers` | Worked answers (Word), answer notebooks and a workbook | **Release after the practical** |
+| `5 Source Files` | The scripts the notebooks came from | Staff only |
 
 ## Before you start
 
@@ -16,17 +16,19 @@ Formulating linear programmes, solving them graphically, and solving them with S
 - **Python:** none needed beyond Week 01. The notebooks are short and commented.
 - **Excel:** desktop Excel with the **Solver** add-in (*File → Options → Add-ins → Excel Add-ins → Solver*),
   for the Excel demo and Tutorial Q4. Excel does not run on the course site.
+- **PowerPoint and Word:** the slides, tutorial sheet and answers are `.pptx` and `.docx` files. On the course
+  site, right-click → *Download*, then open them in PowerPoint or Word.
 
 ## Work through this week in order
 
 | Step | File | What it is for |
 | --- | --- | --- |
-| 1 | `1 Lecture/Week 2 - Linear Programming 1.pdf` | The lecture example (two products, one machine), the feasible region, the objective line, optimal vertices, binding constraints, infeasible, unbounded and multiple-optimum LPs, the canonical (matrix) form, and the switch from maximising to minimising |
+| 1 | `1 Lecture/Week 2 - Linear Programming 1.pptx` | The lecture example (two products, one machine), the feasible region, the objective line, optimal vertices, binding constraints, infeasible, unbounded and multiple-optimum LPs, the canonical (matrix) form, and the switch from maximising to minimising |
 | 2 | `2 Lecture Demos/1 LP with SciPy linprog.ipynb` | Run every cell: the lecture LP solved with `linprog`; the answer $(41.14, 10.29)$, profit £277.71, is slide 12's point B |
 | 3 | `2 Lecture Demos/2 LP with Excel Solver.xlsx` | The same LP in Excel: download it, open *Data → Solver* and press *Solve* |
-| 4 | `1 Lecture/Simplex Method 2 Variable Graphical Demo.pdf` | Optional: how the simplex method walks from vertex to vertex (A → B → C) |
-| 5 | `3 Tutorial/Week 2 - Linear Programming - Tutorial.pdf` | Q1 graphically, Q2 in matrix form, Q3 in Python (copy the step 2 notebook and change `c`, `A_ub`, `b_ub`), Q4 in Excel (copy the step 3 workbook), Q5 manufacturing (medium), Q6 diet problem (hard; it is discussed at the start of Week 03) |
-| 6 | `4 Tutorial Answers/` | Check your work after you have tried the questions: the PDF for Q1–Q6, a notebook for Q3, Q5a, Q5b, Q5c and Q6, and a workbook for Q4 |
+| 4 | `1 Lecture/Simplex Method 2 Variable Graphical Demo.pptx` | Optional: how the simplex method walks from vertex to vertex (A → B → C) |
+| 5 | `3 Tutorial/Week 2 - Linear Programming - Tutorial.docx` | Q1 graphically, Q2 in matrix form, Q3 in Python (copy the step 2 notebook and change `c`, `A_ub`, `b_ub`), Q4 in Excel (copy the step 3 workbook), Q5 manufacturing (medium), Q6 diet problem (hard; it is discussed at the start of Week 03) |
+| 6 | `4 Tutorial Answers/` | Check your work after you have tried the questions: the Word file for Q1–Q6, a notebook for Q3, Q5a, Q5b, Q5c and Q6, and a workbook for Q4 |
 
 ## By the end of this week you can
 
@@ -45,8 +47,8 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
 
 ## 1 Lecture
 
-- `Simplex Method 2 Variable Graphical Demo.pdf`
-- `Week 2 - Linear Programming 1.pdf`
+- `Simplex Method 2 Variable Graphical Demo.pptx`
+- `Week 2 - Linear Programming 1.pptx`
 
 ## 2 Lecture Demos
 
@@ -55,7 +57,7 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
 
 ## 3 Tutorial
 
-- `Week 2 - Linear Programming - Tutorial.pdf`
+- `Week 2 - Linear Programming - Tutorial.docx`
 
 ## 4 Tutorial Answers
 
@@ -68,20 +70,19 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
 - `Q6 Diet problem - parts a, b and c.ipynb` (notebook): (a) minimum cost £93.25; (b) unbounded;
   (c) maximum attractiveness 149.66, and minimum cost £136.52 under the same limits. Lists the binding
   constraints.
-- `Week 2 - Linear Programming - Tutorial Answers.pdf`
+- `Week 2 - Linear Programming - Tutorial Answers.docx`
 
 ## Notes for staff
 
-- **Slides.** Both PDFs in `1 Lecture` are exported in PowerPoint from the `.pptx` files in `5 Source Files`.
-  Edit and export the decks in PowerPoint only: every text box that contains an equation also stores a fallback
+- **No PDF copies.** Students use the `.pptx` and `.docx` files directly, so there is nothing to re-export after
+  an edit. Edit the decks in PowerPoint only: every text box that contains an equation also stores a fallback
   picture, which other programs show instead, so they may show old text.
 - Text inside pictures, which cannot be edited: the code on slide 25 still has the comment "to minimise we need
   the negatives" (the notebooks say: `linprog` minimises, so to maximise we pass the negatives).
 - **Question numbers.** The scripts were written for an earlier numbering of the sheet: `Question_4a–c.py`
   answer **Q5a–c** and `Question_5.py` answers **Q6a–c**. The notebooks use the sheet's numbering. Week 03's
   slides and demos still use the old numbers (see `Lectures/Semester 1/README.md`, section 5).
-- **Tutorial and answers.** Both PDFs are exported in Word from the `.docx` files in `5 Source Files`. The
-  answers' output screenshots are MATLAB's; the values match the notebooks. Each "Please see the notebook" names
+- **Tutorial and answers.** The answers' output screenshots are MATLAB's; the values match the notebooks. Each "Please see the notebook" names
   a notebook in `4 Tutorial Answers`. Q4's answer is `Q4 LP with Excel Solver.xlsx`, made from the demo workbook
   (same layout and Solver set-up).
 - **Q6 notebook.** Beyond `Question_5.py`, it lists the binding constraints after (a) and (c) (rows 1–3, and 2,
