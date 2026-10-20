@@ -93,7 +93,7 @@ for i=1:no_items
     y = xsol(i+no_items);
     wi = w(i);
     hi= h(i);
-     if ri(i)
+     if round(ri(i))   % round: solver values such as 0.9999999
          disp('rotated')
          pgon = polyshape([x x+hi x+hi x],[y y y+wi y+wi]);
          [x x+hi x+hi x];
@@ -110,8 +110,8 @@ for i=1:no_items
 end
 grid on
 axis equal;
-% update to for number of items 
-legend({'1','2', '3', '4'},'Location','southwest');
+% one legend label per item
+legend(string(1:no_items),'Location','southwest');
 xlabel('x') ;
 ylabel('y') ;
 

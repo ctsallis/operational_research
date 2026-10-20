@@ -96,8 +96,8 @@ for i=1:no_items
     y = xsol(i+no_items);
     wi = w(i);
     hi= h(i);
-    if ui(i)
-     if ri(i)
+    if round(ui(i))   % only placed items are drawn (round: solver values such as 0.9999999)
+     if round(ri(i))
          disp('rotated')
          pgon = polyshape([x x+hi x+hi x],[y y y+wi y+wi]);
          [x x+hi x+hi x];
@@ -108,14 +108,14 @@ for i=1:no_items
         [x x+wi x+wi x];
         [y y y+hi y+hi];
      end
+     plot(pgon)
+     hold on;
     end
-    plot(pgon)
-    hold on;
 end
 grid on
 axis equal;
-% update to for number of items 
-legend({'1','2', '3', '4'},'Location','southwest');
+% one legend label per placed item
+legend(string(find(round(ui))),'Location','southwest');
 xlabel('x') ;
 ylabel('y') ;
 
