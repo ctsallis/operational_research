@@ -1,153 +1,347 @@
-# Semester 1 · Week 04 – Mathematical Programming - Modelling
+# Week 04 – Mathematical Programming: Modelling and Some Issues
 
-Writing models in Pyomo, slack variables, and choosing an objective when there are two aims (cost and
-popularity) for the Icki-Toffee problem. Work through the folders in number order.
+This page takes you through the whole of Week 4 on your own: what to read, what to run, what to solve,
+and how to check your answers. Work through the sections in order and tick the boxes as you go.
 
-| Folder | What is in it | When |
+**By the end of the week you should be able to:**
+
+- explain why constraints use $\le$ and $\ge$, never $<$ or $>$;
+- write a sum $\sum_i a_i x_i$ as a vector product $a^T x$, and type it into Pyomo with `sum(...)`;
+- extend a model with a new constraint (a weight cap) and see what it changes;
+- combine two objectives (cost and popularity) in three ways: a ratio, a weighted sum and a
+  normalised weighted sum, and explain what the weight $\alpha$ does;
+- add slack variables to $\le$ constraints, read their values, and say which constraints are
+  **binding**;
+- build one model for a whole system instead of separate models for its parts, and explain why the
+  combined plan can be better.
+
+---
+
+## 0. Before you start
+
+**You need Weeks 2 and 3 first.** This week reuses them:
+
+| From | What you need | Where |
 | --- | --- | --- |
-| `1 Lecture` | Slides (PDF) and the *Slack Variables* demonstration | The lecture |
-| `2 Lecture Demos` | One notebook: linear expressions and constraints in Pyomo | Run live in the lecture |
-| `3 Tutorial` | Tutorial 4 sheet | The practical |
-| `4 Tutorial Answers` | Worked answers (PDF) and six answer notebooks | **Release after the practical** |
-| `5 Source Files` | Editable originals: `.pptx`, `.docx`, the Python scripts the notebooks came from, MATLAB versions | Staff only; edit here, then republish the PDF / notebook |
-| `6 Further Reading` | Two R. E. D. Woolsey papers on real-world modelling | Optional reading |
+| Week 2 | The diet problem (tutorial Q6a) | `Week 02 - Linear Programming 1` folder |
+| Week 3 | Pyomo basics, and the **Icki-Toffee** chocolate-box model (tutorial Q2): minimise cost, then maximise popularity | `Week 03 - Linear Programming 2` folder, especially `4 Tutorial Answers/Q2b Icki-Toffee - minimise cost.ipynb` and `Q2c Icki-Toffee - maximise popularity.ipynb` |
 
-## Before you start
+Tutorial Q1 this week starts from **your Week 3 Icki-Toffee model**. If you don't have one, use the
+Week 3 answer notebook `Q2b Icki-Toffee - minimise cost.ipynb` as your starting point.
 
-- **Week 03:** the Icki-Toffee model (tutorial Q2): minimise cost (268) and maximise popularity (365). This week
-  adds a weight cap and asks for a better objective.
-- **Maths:** summation notation $\sum_i c_i x_i$; inequality constraints ($\le$, $\ge$).
-- **Python and Pyomo:** a `ConcreteModel`, variables, an objective and constraints, solved with
-  `SolverFactory('appsi_highs')` (Week 03 demos). Each notebook's first cell installs Pyomo and HiGHS; run it first.
+**Set up the course site (once per session):**
 
-## Work through this week in order
+1. Open the course site: <https://ctsallis.github.io/operational_research/>. Use a recent Chrome, Edge
+   or Firefox.
+2. Open `00_START_HERE.ipynb` and choose *Run → Run All Cells*. If every cell prints `OK`, everything
+   this week will run. The first time takes about a minute while Python and the packages download.
+3. In the file browser on the left, go to `Lectures` → `Semester 1` →
+   `Week 04 - Mathematical Programming - Modelling`.
 
-Page numbers are the pages of the lecture PDF.
+**How to get the files:**
 
-| Step | File | What it is for |
-| --- | --- | --- |
-| 1 | `1 Lecture/Week 4 - Mathematical Programming - Modelling.pdf`, pages 1–4 | Why constraints use $\le$ / $\ge$ and not $<$; a sum $\sum_i a_i x_i$ is the matrix product $a^T x$ |
-| 2 | `2 Lecture Demos/1 Pyomo expressions and constraints.ipynb` | Pages 5–6: build $10x_1 + 6x_2 + 8x_3 + 16x_4$ by hand or with `sum(...)`; make, replace and switch off constraints |
-| 3 | Lecture PDF, pages 7–9 | Recap: the diet problem (Week 02 tutorial Q6a) in summation notation and Pyomo |
-| 4 | Lecture PDF, pages 10–14 | Recap of the Icki-Toffee results; interpreting a model, opinion and preference |
-| 5 | Lecture PDF, pages 15–16 | Extending the model: a weight cap of $1.5 \times 320$ g (this is tutorial Q1a) |
-| 6 | Lecture PDF, pages 17–23 | Two aims in one objective: ratio (pp. 18–19), weighted (p. 20), normalised weighted (pp. 21–23) |
-| 7 | Lecture PDF, pages 24–26 | Solve the LP first; the steps of modelling; under- and over-modelling |
-| 8 | `1 Lecture/Slack Variables.pdf` | Slack variables: the unused amount of a $\le$ constraint; binding and non-binding constraints. Needed for tutorial Q2a ii |
-| 9 | `3 Tutorial/Week 4 - Mathematical Programming - Modelling - Tutorial.pdf` | Q1 (Icki-Toffee: weight cap, then your own objective: copy a Week 03 Q2 notebook and change it), Q2 (two factories: separate models, then one combined model) |
-| 10 | `4 Tutorial Answers/` | Check your work after you have tried the questions: the PDF, then the notebooks below |
-| 11 | `6 Further Reading/` (optional) | Woolsey's case studies; the *Inflexible Steel Company* (mentioned on page 26) is in *A Novena to St. Jude* |
+- **Notebooks (`.ipynb`)** open and run in the browser: double-click them.
+- **Slides (`.pptx`) and Word files (`.docx`)** don't open in the browser. Right-click the file →
+  **Download**, then open it in PowerPoint or Word.
+- **This README:** right-click `README.md` → *Open With* → *Markdown Preview*.
 
-Each notebook starts with the problem, how to run it and the expected result, explains every code cell, and ends
-with a short *What do you notice?* or *Try it* question with a hidden answer.
+**Saving your work.** Anything you change on the site is stored **only in this browser**. Clearing
+browser data, using a private window or switching computer loses it. Before you stop, right-click each
+notebook you changed → **Download**.
 
-## By the end of this week you can
+---
 
-- explain why a model uses $\le$ / $\ge$, and write $\sum_i a_i x_i$ as $a^T x$ and as `sum(...)` in Pyomo;
-- create, print, replace and deactivate constraints in Pyomo;
-- extend a model with a new constraint (the weight cap) and explain why it changes some answers and not others;
-- combine two aims into one objective (a ratio, a weighted sum, a normalised weighted sum) and explain how the
-  weight $\alpha$ and the scale of the data change the answer;
-- use slack to find unused capacity and to tell binding from non-binding constraints;
-- show that planning two factories together can beat planning them separately.
+## 1. What is in this folder
 
-**Next:** Week 05 (Mixed Integer Programming) adds binary (yes/no) variables, which can force variety in the
-Icki-Toffee box (Week 05 tutorial Q3), the issue left open on page 15.
+| Folder | File | What it is | Do you need it? |
+| --- | --- | --- | --- |
+| `1 Lecture` | [`Week 4 - Mathematical Programming - Modelling.pptx`](1%20Lecture/Week%204%20-%20Mathematical%20Programming%20-%20Modelling.pptx) | Main lecture slides | **Yes** |
+| `1 Lecture` | [`Slack Variables.pptx`](1%20Lecture/Slack%20Variables.pptx) | Short deck (10 slides): slack variables, binding and non-binding constraints, slack vs surplus | **Yes**; needed for tutorial Q2a ii |
+| `2 Lecture Demos` | [`1 Pyomo expressions and constraints.ipynb`](2%20Lecture%20Demos/1%20Pyomo%20expressions%20and%20constraints.ipynb) | Runs the Pyomo code on slides 6–7 | **Yes** |
+| `3 Tutorial` | [`Week 4 - Mathematical Programming - Modelling - Tutorial.docx`](3%20Tutorial/Week%204%20-%20Mathematical%20Programming%20-%20Modelling%20-%20Tutorial.docx) | The tutorial sheet: Q1 (Icki-Toffee) and Q2 (two factories) | **Yes** |
+| `4 Tutorial Answers` | [`Week 4 - Mathematical Programming - Modelling - Tutorial - Answers.docx`](4%20Tutorial%20Answers/Week%204%20-%20Mathematical%20Programming%20-%20Modelling%20-%20Tutorial%20-%20Answers.docx) | Worked answers to the whole sheet | After you have tried the tutorial |
+| `4 Tutorial Answers` | [`Q1b Icki-Toffee - popularity per cost ratio.ipynb`](4%20Tutorial%20Answers/Q1b%20Icki-Toffee%20-%20popularity%20per%20cost%20ratio.ipynb) | Q1b with a ratio objective | After you have tried Q1b |
+| `4 Tutorial Answers` | [`Q1b Icki-Toffee - weighted objective.ipynb`](4%20Tutorial%20Answers/Q1b%20Icki-Toffee%20-%20weighted%20objective.ipynb) | Q1b with a weighted objective | After you have tried Q1b |
+| `4 Tutorial Answers` | [`Q1b Icki-Toffee - normalised weighted objective.ipynb`](4%20Tutorial%20Answers/Q1b%20Icki-Toffee%20-%20normalised%20weighted%20objective.ipynb) | Q1b with a normalised weighted objective | After you have tried Q1b |
+| `4 Tutorial Answers` | [`Q2a Factory A.ipynb`](4%20Tutorial%20Answers/Q2a%20Factory%20A.ipynb), [`Q2a Factory B.ipynb`](4%20Tutorial%20Answers/Q2a%20Factory%20B.ipynb) | Q2a, one model per factory | After you have tried Q2a |
+| `4 Tutorial Answers` | [`Q2b Factories combined.ipynb`](4%20Tutorial%20Answers/Q2b%20Factories%20combined.ipynb) | Q2b, one model for the whole company | After you have tried Q2b |
+| `5 Source Files` | `Python/*.py`, `MATLAB/*.m` | The original scripts the notebooks were made from | No (see section 8) |
+| `6 Further Reading` | Two papers by R. E. D. Woolsey (*A Candle to Saint Jude…*, *A Novena to St. Jude…*) | Case studies of integer and mathematical programming in practice, recommended on the last slide | Optional |
 
-## Lecture demo (`2 Lecture Demos`)
+**Slide numbers** in this README are the numbers PowerPoint shows in its slide list. The main deck has 27
+slides. Slide 3 is hidden and blank, so the slide show skips it, but it still counts in the numbering.
 
-| Notebook | PDF pages | Shows |
-| --- | --- | --- |
-| `1 Pyomo expressions and constraints` | 5–6 | Linear expressions written by hand and with `sum(...)`; a constraint and an objective; replacing and deactivating constraints |
+---
 
-## Tutorial answers (`4 Tutorial Answers`)
+## 2. Your checklist for the week
 
-All three Q1b notebooks include the Q1a weight cap ($\le 480$ g).
+- [ ] Section 0: Week 3 done, `00_START_HERE.ipynb` prints `OK`
+- [ ] Section 3: main slides 1–27, with the demo notebook at slides 6–7
+- [ ] Section 4: `Slack Variables.pptx`
+- [ ] Section 5: tutorial Q1a, Q1b, Q2a, Q2b, written up in your own notebook
+- [ ] Section 6: answers checked against the answer notebooks and the answer sheet
+- [ ] Section 7: self-test questions answered
+- [ ] Your notebooks downloaded to your own computer
 
-| Notebook | Question | Answer |
-| --- | --- | --- |
-| `Q1b Icki-Toffee - popularity per cost ratio` | Q1b | 8 Coconut Ice, 32 Lime sherbet, 8 Rose-water posy (480 g) |
-| `Q1b Icki-Toffee - weighted objective` | Q1b | $\alpha = 0$: popularity 305 (several selections reach it); *Try it*: $\alpha = 0.6$ gives the minimum-cost box |
-| `Q1b Icki-Toffee - normalised weighted objective` | Q1b | $\alpha = 0.59$: 9 Caramel softie, 10 Rose-water posy, 3 Grape bunch (cost 268); *Try it*: $\alpha = 0.5$ gives 24 Coconut Ice, 11 Rose-water posy |
-| `Q2a Factory A` | Q2a i–ii | 10 standard, 8 deluxe, £220; unused hours: grinding 24, polishing 0 |
-| `Q2a Factory B` | Q2a i–ii | 0 standard, 11 deluxe, £165; unused hours: grinding 27, polishing 9 |
-| `Q2b Factories combined` | Q2b i–ii | A: 10 standard, 8 deluxe; B: 12 deluxe; £400 (vs £385); raw material 72 kg : 48 kg |
+---
 
-- `Week 4 - Mathematical Programming - Modelling - Tutorial - Answers.pdf`: Q1–Q2 worked by hand. Q1b is open
-  ("justify your choice"), so the answers point to the notebooks.
+## 3. Lecture: the main slides
 
-## Notes for staff
+Download and open `1 Lecture/Week 4 - Mathematical Programming - Modelling.pptx`. Read it in this
+order. The notes below say what each part is about and what you should take from it.
 
-- The lecture had no PDF; `1 Lecture/Week 4 - Mathematical Programming - Modelling.pdf` was exported from the .pptx.
-- **Slide and page numbers.** The `.pptx` has a hidden blank slide 3 that the PDF leaves out, so from slide 4 on a
-  `.pptx` slide number is one higher than the PDF page number. The README and the notebooks give PDF page numbers.
-- A Windows `debug.log` was removed.
-- Two scripts in `5 Source Files/Python` were fixed: a stray line `model.w` in `icki_toffee_cost_pop_ratio.py` and a stray line `era` in `pyomo_printing_demo.py`. Both made the original scripts crash.
-- The notebooks use HiGHS (`SolverFactory('appsi_highs')`) so they run in the browser; the scripts in
-  `5 Source Files/Python` still use GLPK for desktop use. Results match; for the weighted objective GLPK picks a
-  different selection with the same popularity, 305.
-- The MATLAB `icki_toffee_weighted.m` uses the opposite convention from the slides and the Python: there $\alpha$ is
-  the weight on **popularity** (minimise $(1-\alpha)\,\text{cost} - \alpha\,\text{popularity}$), so its `alpha = 1`
-  is the Python's `alpha = 0`. Both give popularity 305.
-- The Q2 code prints *surplus* for unused hours; the *Slack Variables* slides call this **slack** (surplus is the
-  excess over a $\ge$ limit). The notebooks explain this and the answers now say *slack*; the printed text is unchanged.
-- **Notebooks (Oct 2026), text only.** Each notebook gained an opening cell (problem, how to run it, expected
-  result), a short explanation above every code cell, a comment on each constraint row and a closing *What do you
-  notice?* / *Try it* cell with a hidden answer. Wrong or unclear comments were fixed: "Define integer variables"
-  above `NonNegativeReals` (demo), "Define objective function coefficients" above the constraint data (Q1b),
-  `fat_weight_min` explained as an upper limit, the four-number "raw material for each factory" list (Q2b), and
-  the expected Pyomo warning when the demo redefines `constraint1`. No code and no printed result changed.
-- **Corrections (Oct 2026), lecture slides.** The `.pptx` in `5 Source Files` was corrected and the PDF in
-  `1 Lecture` re-exported from it in PowerPoint (17 Oct 2026) (`.pptx` slide numbers, PDF pages in brackets):
-  - slide 8 (p. 7): vitamin B constraint $14x_5$ (it said $12x_5$); vitamin C constraint $10x_9$ (it said
-    $10x_{10}$). Week 03 had the same error;
-  - slide 24 (p. 23): the last column is now $\alpha = 0.16$ and the text says "$\alpha < 1/6$ (≈ 0.167) return the
-    Maximise popularity model" (it said 0.17; at $\alpha = 0.17$ the model picks 30 Coconut Ice, 6 Rose-water posy
-    and 4 Grape bunch, popularity 304);
-  - slide 11 (p. 10): "at least 320g", "at most 45%", "at most 2850 calories" (it said "more than" / "less than");
-  - slide 17 (p. 16): "affected"; slide 26 (p. 25): "etc."; slide 27 (p. 26): "R.E.D. Woolsey";
-  - slide 19 (p. 18): heading "Maximise the sum of each candy's popularity per unit cost" (it said "… of the
-    selection", but $\sum_i (P_i/C_i) x_i$ is not the selection's total popularity ÷ total cost);
-  - slides 8–10 (pp. 7–9): "Week 2 Tutorial Q6a" (it said "Tutorial Question 5a", the old numbering);
-  - slide 21 (p. 20): "For a 40/60 split (40% popularity, 60% cost)".
-  - slides 22–23 (pp. 21–22): Lime sherbet's normalised difference is $0.6 - 0.65 = -0.05$ (it said −0.5). The
-    results do not change.
-  - Not changed (pictures): the code on slides 6–7 says "Define integer variables" above `NonNegativeReals`; the
-    code on slide 10 uses GLPK.
-  - Always edit and export the `.pptx` in PowerPoint: LibreOffice cannot draw equations inside table cells (on
-    pp. 10, 11, 16, 18–23 its table headers show a tiny copy of the table instead of the column names).
-  - Slides 8, 22, 23 and 24 also store fallback pictures (of the equations text box, the tables and the text under
-    the slide 24 table) that only programs without equation support (e.g. LibreOffice, Google Slides) show. On
-    17 Oct 2026 these were replaced by the same areas of the PowerPoint PDF export, with the slides 22–23 Lime
-    sherbet cell redrawn as −0.05, so they show the corrected text too; the slide 24 fallback box is wider than the
-    text box, because in PowerPoint the last line runs past it. PowerPoint redraws such a picture only when the
-    text in that box changes (a plain re-save does not), so after editing one of these boxes, check it once in
-    another program.
-- **Corrections (Oct 2026), `Slack Variables.pptx`** (the PDF in `1 Lecture` was re-exported in PowerPoint,
-  17 Oct 2026): slide 2 "$P = 5 \cdot 0 + 4 \cdot 0 = 0$" (it said $7 \cdot 0$; the objective is $5x + 4y$);
-  slide 10 "Used for ≤ (less than or equal to) constraints" and "≥ (greater than or equal to)". The fallback
-  pictures of these two text boxes (see above) were replaced the same way on 17 Oct 2026.
-- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; the PDFs were re-exported from them
-  in Word on 17 Oct 2026): Q1 now says "at least" 320 g, "at most" 45% fat and "at most" 2850 calories (as in
-  Week 03); Q2 "its products", "for each factory to maximise its profit", and the missing ")" in Q2a ii. Answers
-  only: the Colab link (it needs a sign-in and had GLPK code) now points to the course site; "popularity per cost
-  ratio" (it said "population"), "normalised weighted objective", "greater than", "last week's"; Q2a ii says
-  *slack* instead of *surplus*; and a new table under Q1b lists the selections from the notebooks.
-- **Later on 17 Oct** (both PDFs re-exported from Word; checked 19 Oct 2026): the tutorial sheet now has the
-  "* Medium / ** Hard" key of the other weeks' sheets (Q1b is marked *). In the answers, the note under the Q1b
-  table uses † (not *) and says which objective its α thresholds belong to: 0.59 and 1/6 are for the normalised
-  weighted objective; the plain weighted objective switches at about 0.42 (minimum cost) and 0.09 (maximum
-  popularity).
-- **Corrections (19 Oct 2026)** (made in the `.docx` and `.pptx` in `5 Source Files`; the three PDFs were
-  re-exported from them on 19 Oct 2026 and checked):
-  - answers `.docx`, Q2b combined model: the yellow-on-yellow filler terms (e.g. "+5s₁+3d₁") that lined up the
-    columns were removed. They were invisible in the PDF but appeared when the text was copied or read aloud, and
-    gave a wrong model. Each constraint is now its own line, and tab stops line up factory A's terms, factory B's
-    terms and the limits. The five lines were rebuilt and look right in the Word export; edit them in Word
-    (LibreOffice does not show Word equations);
-  - tutorial and answers `.docx`, Q1b: "i.e. do you think" (it said "Do");
-  - `Slack Variables.pptx` slide 2: a label "P = 12" next to the dotted line, which had none (it is the objective
-    line $5x + 4y = 12$). It is a plain text box, so there is no fallback picture to update.
-- **Course site address (19 Oct 2026):** the link to the answer notebooks at the top of the answers now gives
-  `https://ctsallis.github.io/operational_research/` (it gave `invariantum.github.io`, an old copy of the site).
-  The answers PDF was re-exported again afterwards (19 Oct 2026).
+### Slides 1–5: two building blocks
+
+- **Slide 4: always use $\le$ or $\ge$.** With a strict inequality the feasible set is not *closed*: it
+  leaves out its own boundary. Try the slide's example: maximise $x$ subject to $x < 1$. Whatever $x$
+  you pick ($0.9$, $0.99$, $0.999$…) there is a bigger one that still satisfies $x < 1$, so there is
+  **no maximum**. With $x \le 1$ the maximum is $x = 1$. Solvers only accept $\le$, $\ge$ and $=$.
+- **Slide 5: sums as vector products.** If $a = (a_1, \dots, a_n)^T$ and $x = (x_1, \dots, x_n)^T$,
+  then $a^T x = \sum_{i=1}^{n} a_i x_i$. A list of coefficients times a list of variables is how you
+  type long constraints quickly.
+
+### Slides 6–7: the same thing in Pyomo (run the demo now)
+
+Slide 6 writes $10x_1 + 6x_2 + 8x_3 + 16x_4$ by hand and with `sum(...)`. Slide 7 turns it into the
+constraint $10x_1 + 6x_2 + 8x_3 + 16x_4 \ge 120$.
+
+Open `2 Lecture Demos/1 Pyomo expressions and constraints.ipynb`, run the first cell, then
+*Run → Run All Cells*, and read each cell's explanation as you go. What to notice:
+
+- Python counts from 0, so the slides' $x_1, \dots, x_4$ are `x[0]` … `x[3]`.
+- Writing the sum by hand and with `sum(cost[i] * model.x[i] for i in model.x)` gives **exactly the
+  same expression**.
+- Pyomo prints every constraint as *Lower ≤ Body ≤ Upper*, with `-Inf` or `+Inf` for a missing side.
+- A yellow **WARNING: Implicitly replacing the Component attribute constraint1** is **expected**. The
+  notebook redefines a constraint on purpose to show what happens.
+- `deactivate()` switches a constraint off without deleting it (`Active` becomes `False`).
+
+Do the notebook's *Try it* cell at the end.
+
+### Slides 8–10: recap of the diet problem
+
+This is Week 2 tutorial Q6a, written first in full (slide 8), then with symbols and sums (slide 9),
+then in Pyomo (slide 10). The point is the notation: one symbol per data column ($v_i^A$ = vitamin A
+in food $i$, $c_i$ = cost of food $i$, and so on), which makes the model short and easy to check.
+To run it, use Week 3's `2 Lecture Demos/2 Diet problem 6a - minimise cost.ipynb`.
+
+> The code on slide 10 uses `SolverFactory('glpk')`. GLPK does not work on the course site; use
+> `SolverFactory('appsi_highs')`, as every course notebook does.
+
+### Slides 11–17: the chocolate box, and why interpretation matters
+
+- **Slides 11–12** repeat Week 3's Icki-Toffee model and its two answers: minimise cost (cost **268**)
+  and maximise popularity (popularity **365**). Ask yourself the slide's question: *what do we think of
+  these selections?* The popular box weighs **635 g**, almost twice the 320 g minimum, and neither box
+  has much variety.
+- **Slides 13–15:** a model is only as good as your reading of the problem, and its answers often show
+  what you left out. Your opinions and preferences shape the model (for example, how much cost
+  matters), so be aware of bias. Modelling is **iterative**: build, look at the answer, improve.
+- **Slides 16–17: extending the model.** Add a weight cap of 1.5 times the minimum:
+  $\sum_i W_i x_i \le 1.5 \times 320 = 480$ (this is tutorial **Q1a**). With the cap, the
+  maximum-popularity box changes (popularity **305**). The minimum-cost box doesn't change, because it
+  already weighed less than 480 g.
+
+### Slides 18–24: combining two objectives (tutorial Q1b)
+
+We want a box that is both popular **and** cheap, but a model has only one objective. Slide 18 lists
+the two ideas used here.
+
+| Slides | Method | Objective | What to watch out for |
+| --- | --- | --- | --- |
+| 19–20 | **Ratio** | maximise $\sum_i \dfrac{P_i}{C_i} x_i$ | Each candy scores its own popularity per unit cost. This rewards many cheap candies; it is **not** the same as total popularity ÷ total cost (that ratio is not linear) |
+| 21 | **Weighted** | maximise $(1-\alpha)\sum_i P_i x_i - \alpha \sum_i C_i x_i$ | $\alpha$ (between 0 and 1) is how much cost matters: $\alpha = 0$ is popularity only, $\alpha = 1$ is cost only. Costs (10–20) are bigger numbers than popularities (3–10), so cost wins unless $\alpha$ is small |
+| 22–24 | **Normalised weighted** | maximise $(1-\alpha)\sum_i \dfrac{P_i x_i}{\max_i P_i} - \alpha \sum_i \dfrac{C_i x_i}{\max_i C_i}$ | Dividing by the largest value ($\max P_i = 10$, $\max C_i = 20$) puts both on a 0–1 scale, so $\alpha$ really means "how much I care about cost" |
+
+Why minimise cost becomes "minus cost" (slide 21): minimising $\sum_i C_i x_i$ gives the same choice
+of $x$ as maximising $-\sum_i C_i x_i$, so both aims fit in one *maximise*.
+
+Slide 24 compares all the capped models. With the normalised objective, $\alpha \gtrsim 0.59$ gives the
+minimum-cost box and $\alpha < 1/6 \approx 0.167$ gives the maximum-popularity box. Values in between
+give a real compromise, such as $\alpha = 0.5$ on slide 23.
+
+### Slides 25–27: practical modelling advice
+
+- **Slide 25: solve the LP first.** Drop the "whole numbers" condition and solve the faster linear
+  programme. If its answer already happens to be whole numbers, you are done.
+- **Slide 26: a recipe for any model.** Write down what you know; identify the variables, the objective
+  and the constraints; check they are linear; choose clear notation; decide whether the variables are
+  real or integer; then write the model. Use this recipe for the tutorial.
+- **Slide 27: tips.** Test on a small version first; compare with known data; watch for *under*-modelling
+  (missing constraints) and *over*-modelling (too restrictive, redundant or conflicting constraints,
+  which can make the model infeasible). The Woolsey papers in `6 Further Reading` are recommended here.
+
+---
+
+## 4. Lecture: `Slack Variables.pptx`
+
+Download and open `1 Lecture/Slack Variables.pptx`. It uses one small problem:
+
+$$\text{maximise } P = 5x + 4y \quad \text{subject to} \quad 2x + 3y \le 15,\; 3x + 2y \le 15,\; 2x + 2y \le 11,\; x, y \ge 0.$$
+
+- **Slack variable:** the unused amount in a $\le$ constraint. Adding $s_1 \ge 0$ turns
+  $2x + 3y \le 15$ into $2x + 3y + s_1 = 15$. A model written only with equalities and non-negative
+  variables is in **standard form** (slide 3).
+- **Slides 4–9** visit the corners A–E of the feasible region and fill in a table of $x, y, s_1, s_2,
+  s_3, P$. At each corner, work out the slacks yourself **before** you move to the next slide.
+- The optimum is C, $(x, y) = (4, 1.5)$ with $P = 26$. There $s_1 = 2.5$, $s_2 = 0$, $s_3 = 0$.
+- **Binding constraint:** slack $= 0$, the constraint is "used up" and is holding the solution back.
+  **Non-binding:** slack $> 0$, so there is spare capacity.
+- **Slide 10, surplus variable:** for a $\ge$ constraint, the amount *above* the minimum. Subtracting
+  $e_1 \ge 0$ turns $2x + 3y \ge 15$ into $2x + 3y - e_1 = 15$.
+
+You need this for tutorial Q2a ii ("unused hours" = slack).
+
+---
+
+## 5. Tutorial
+
+Download `3 Tutorial/Week 4 - Mathematical Programming - Modelling - Tutorial.docx`. One star (\*)
+marks a medium question and two stars (\*\*) a hard one. Do the questions in order: **Q1a, Q1b, Q2a,
+Q2b**.
+
+### Where to write your code
+
+Make your own copy of a course notebook so you keep its first cell (it installs Pyomo and HiGHS and
+makes Pyomo's printing work in the browser):
+
+1. In the file browser, right-click a course notebook (for Q1, Week 3's
+   `Q2b Icki-Toffee - minimise cost.ipynb`; for Q2, this week's `1 Pyomo expressions and constraints.ipynb`)
+   → **Duplicate**.
+2. Right-click the copy → **Rename**, e.g. `My Week 4 Q1.ipynb`.
+3. Keep the first cell and replace the rest with your own model. Solve with
+   `SolverFactory('appsi_highs')`.
+
+For each question, first write the model on paper using the recipe on slide 26 (variables, objective,
+constraints, real or integer). Then code it.
+
+### Q1: Icki-Toffee
+
+- **Q1a.** Add the weight cap $\sum_i W_i x_i \le 1.5 \times 320$ to your Week 3 model. Solve it twice,
+  once minimising cost and once maximising popularity, and compare with the uncapped answers (268 and
+  365).
+- **Q1b\*.** Combine cost and popularity into **one** objective, keeping the weight cap. Pick one of
+  the methods on slides 19–23 (ratio, weighted, normalised weighted), choose $\alpha$ if your method has
+  one, and write two or three sentences saying **why**: do you think cost and popularity matter equally?
+  There is no single right answer; the justification is the point.
+
+Hints:
+
+- The data are in Tables 1 and 2 of the sheet. A "-" in the fat column means 0.
+- "Fat at most 45% of the weight" is $\sum_i F_i x_i \le 0.45 \sum_i W_i x_i$: the right-hand side
+  contains the variables too, which is allowed because it is still linear.
+- The variables are numbers of candies, so make them whole numbers (`NonNegativeIntegers`).
+
+### Q2: two factories
+
+- **Q2a.** Build a **separate** model for factory A and for factory B, each maximising its own profit.
+  Use the raw material each factory is given (75 kg for A, 45 kg for B).
+  - i. How many standard and deluxe units should each factory make? What is each profit, and the total?
+  - ii. How many grinding and polishing hours are left unused at each factory?
+- **Q2b.** Now let the model share out the 120 kg itself: build **one** model for the whole company.
+  - i. What is the total profit? Is it better or worse than Q2a's total?
+  - ii. How much raw material does each factory use? What does this say about planning the factories
+    separately?
+
+Hints:
+
+- Q2a: two variables per factory, $s$ (standard) and $d$ (deluxe). One constraint per limited
+  resource: grinding hours, polishing hours, raw material (4 kg per unit of either product).
+- Q2a ii: unused hours = capacity − hours used at your solution. This is the **slack** from section 4.
+- Q2b: four variables $s_1, d_1$ (factory A) and $s_2, d_2$ (factory B). Each factory's machines only
+  work on its own products, so A's grinding constraint contains only $s_1$ and $d_1$. The raw material
+  is shared: $4(s_1 + d_1 + s_2 + d_2) \le 120$.
+- The answer sheet uses whole units; the sheet says real values are also acceptable.
+
+---
+
+## 6. Check your answers
+
+Only open this once you have your own answers. The answer notebooks in `4 Tutorial Answers` show the
+full code with an explanation above each step; each one starts with an *Expected result* and ends with
+a *Try it* or *What do you notice?* question. The Word answer sheet has the written working.
+
+<details>
+<summary><b>Show the final numbers</b></summary>
+
+| Question | Answer |
+| --- | --- |
+| Q1a | Constraint $\sum_i W_i x_i \le 480$. Minimum cost stays **268**, e.g. 9 Caramel softie, 10 Rose-water posy, 3 Grape bunch (323 g). Maximum popularity drops from 365 to **305**, e.g. 30 Coconut Ice, 5 Rose-water posy, 5 Grape bunch (475 g) |
+| Q1b, ratio | 8 Coconut Ice, 32 Lime sherbet, 8 Rose-water posy: weight 480 g, cost 616, popularity 288, objective 21.97 |
+| Q1b, weighted, $\alpha = 0$ | Popularity **305** (cost ignored). Any $\alpha$ from about 0.42 gives the minimum-cost box; only $\alpha$ below about 0.09 gives the maximum-popularity box |
+| Q1b, normalised, $\alpha = 0.5$ | 24 Coconut Ice, 11 Rose-water posy: 376 g, 2795 calories, 168 g fat, cost 470, popularity 249 |
+| Q1b, normalised, $\alpha = 0.59$ | The minimum-cost box (cost 268), objective −2.494 |
+| Q2a, factory A | 10 standard, 8 deluxe, profit **£220**. Unused: grinding 24 h, polishing 0 h (binding); 3 kg raw material left |
+| Q2a, factory B | 0 standard, 11 deluxe, profit **£165**. Unused: grinding 27 h, polishing 9 h; 1 kg raw material left |
+| Q2a, total | £220 + £165 = **£385** |
+| Q2b | $s_1 = 10$, $d_1 = 8$, $s_2 = 0$, $d_2 = 12$: profit **£400**, better than £385. A uses 72 kg and B 48 kg (instead of 75 and 45). A could not use its last 3 kg, while B had spare hours for one more deluxe unit |
+
+</details>
+
+**If your answer is different:**
+
+- **Same objective value, different selection?** That's fine. Some of these problems have several
+  optimal answers (for example popularity 305 in Q1a). Any selection that meets every constraint and
+  reaches the same objective value is correct.
+- **Different objective value?** Print your model with `model.pprint()` and compare each constraint
+  with the formulation in the answer notebook, line by line. Common slips: a wrong number copied from a
+  table, $\le$ instead of $\ge$, forgetting the weight cap, or a "-" not entered as 0.
+- **Q1b:** your answer depends on the method and $\alpha$ you chose, so compare your **reasoning** with
+  slides 19–24 and with the notebooks' *Try it* answers, not just the numbers.
+
+---
+
+## 7. Self-test
+
+Answer these without looking, then open the answers.
+
+1. Why can't a solver handle "maximise $x$ subject to $x < 1$"?
+2. Write $3x_1 + 5x_2 + 2x_3$ as $a^T x$. What is $a$?
+3. In the Slack Variables example, what are $s_1, s_2, s_3$ at corner B $(5, 0)$? Which constraints are
+   binding there?
+4. Why does the plain weighted objective with $\alpha = 0.5$ give the minimum-cost box, even though
+   0.5 sounds like "equal preference"?
+5. In Q2b, why does the company earn more when one model plans both factories?
+
+<details>
+<summary><b>Show the answers</b></summary>
+
+1. The feasible set $x < 1$ has no largest point: for any $x < 1$ there is a bigger one. With $x \le 1$
+   the maximum $x = 1$ exists (slide 4).
+2. $a = (3, 5, 2)^T$ and $x = (x_1, x_2, x_3)^T$, so $a^T x = 3x_1 + 5x_2 + 2x_3$.
+3. $s_1 = 15 - 10 = 5$, $s_2 = 15 - 15 = 0$, $s_3 = 11 - 10 = 1$. Of the three constraints, only the second
+   ($3x + 2y \le 15$) is binding (slide 5).
+4. Costs (10 to 20) are bigger numbers than popularities (3 to 10), so the cost term dominates unless
+   $\alpha$ is small. Normalising (slide 22) fixes this.
+5. With fixed shares, factory A cannot use its last 3 kg (its polishing is binding), while factory B has
+   spare machine hours but no material. One model moves the material to where it earns most.
+
+</details>
+
+---
+
+## 8. Extras (optional)
+
+- **Further reading.** Two short papers by R. E. D. Woolsey in `6 Further Reading` (right-click →
+  **Download**). They are case studies of integer and mathematical programming in practice; slide 27
+  calls them "insightful and amusing".
+- **Source files.** `5 Source Files` holds the original scripts the notebooks were made from. You do
+  not need them. The Python scripts use the GLPK solver, which you would have to install on your own
+  computer; the MATLAB scripts need MATLAB with the Optimization Toolbox. The notebooks give the same
+  answers.
+- **Running on your own computer.** Every notebook also runs in Google Colab or Anaconda Jupyter.
+
+---
+
+## 9. If something goes wrong
+
+| Problem | What to do |
+| --- | --- |
+| `ModuleNotFoundError: No module named 'pyomo'` | Run the notebook's **first cell** again. Installs last only while the browser tab is open |
+| The notebook seems stuck the first time | The first run downloads Python and the packages. Wait about a minute; if nothing happens, reload the page and run the first cell again |
+| A yellow `WARNING: Implicitly replacing the Component attribute…` | Expected in the demo notebook (see section 3). In your own model it means you used the same name twice |
+| Your selection differs from the slides or the answers | See section 6: several selections can be optimal |
+| A `.pptx` or `.docx` won't open in the browser | Right-click → **Download**, then open it in PowerPoint or Word |
+| Your changes have disappeared | They are kept only in the browser you used. Download your notebooks before you finish (section 0) |
+| `SolverFactory('glpk')` fails | GLPK does not run in the browser. Use `SolverFactory('appsi_highs')` |
+| Anything else | Run `00_START_HERE.ipynb` (it lists more fixes at its end), or open the notebook in Google Colab |
