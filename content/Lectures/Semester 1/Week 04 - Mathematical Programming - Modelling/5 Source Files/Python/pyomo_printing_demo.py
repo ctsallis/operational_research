@@ -3,7 +3,7 @@ from pyomo.environ import *
 # Create a Concrete Model
 model = ConcreteModel()
 
-# Define integer variables
+# Define non-negative real variables
 model.x = Var(range(4), domain=NonNegativeReals)
 # define a vector
 cost = [10, 6, 8, 16]
