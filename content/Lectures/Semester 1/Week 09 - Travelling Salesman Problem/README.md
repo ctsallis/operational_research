@@ -487,7 +487,7 @@ It uses the functions defined earlier in the notebook, and takes about 15 second
 | 25 | 475.37 | about 1–2 s |
 | 30 | 511.32 | about 6–8 s |
 | 35 | 518.52 | about 20–30 s |
-| 40 | (not in the table) | several minutes |
+| 40 | (not computed: too slow) | several minutes |
 
 A desktop Python installation is several times faster (35 cities: about 3 seconds).
 
@@ -601,6 +601,7 @@ Run it with **Run → Run All Cells**. It takes about a minute and a half in the
 | *1(b)* | A table: population, generations, crossover, mutation, length, % above the optimum, time; then the written answer |
 | *2. Research questions* | Model answers to the three questions |
 
+The notebook's *1(a)* and *1(b)* are tasks **1(b)** and **1(c)** of section 8 (task 1(a) has no part in the notebook).
 The **lengths** must match the tables in section 8 exactly; the **times** will differ.
 
 ---

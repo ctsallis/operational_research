@@ -70,8 +70,8 @@ Week 11 - Floor Planning/
 
 ### Background you need
 
-- **Mixed-integer programming and big-M constraints.** If "binary variable" or "big-M" is unfamiliar, revise [Week 05 – Mixed Integer Programming](../Week%2005%20-%20Mixed%20Integer%20Programming/) first. Slides 2–4 of this week also give a quick recap.
-- **Either/or constraints** were also used for scheduling in [Week 07 – Flow Shop and Job Shop Scheduling](../Week%2007%20-%20Flow%20Shop%20and%20Job%20Shop%20Scheduling/). Floor planning uses the same idea in two dimensions.
+- **Binary variables.** If "binary variable" is unfamiliar, revise [Week 05 – Mixed Integer Programming](../Week%2005%20-%20Mixed%20Integer%20Programming/) first. Its linking constraint $x_i \le 10\,\delta_i$ already uses a binary variable to switch a constraint on or off, the idea behind big-M. Slides 2–4 of this week also give a quick recap.
+- **Big-M either/or constraints** were first used for scheduling in [Week 07 – Flow Shop and Job Shop Scheduling](../Week%2007%20-%20Flow%20Shop%20and%20Job%20Shop%20Scheduling/). Floor planning uses the same idea in two dimensions.
 - **Basic Pyomo:** `ConcreteModel`, `Var`, `Constraint`, `Objective`, `SolverFactory`. Every line of the notebooks is explained, so you can follow them even if you are rusty.
 
 ### How to open the notebooks
@@ -103,7 +103,7 @@ When a *Try it* asks you to change a line, the original line is given in this RE
 Tick each step when you finish it.
 
 - [ ] **Step 1 – Recap (slides 2–4).** A small linear program and the same problem with $x$ forced to be an integer. Check that you understand why the optimum moves from $(1.9, 2.9)$ with $P^* = 13.95$ to $(2, 2.833)$ with $P^* = 13.917$.
-- [ ] **Step 2 – The basic packing model (slides 5–19).** Read slowly; [section 5](#5-the-ideas-step-by-step) explains each step again. Make sure you can fill in the big-M table on slide 15 yourself.
+- [ ] **Step 2 – The basic packing model (slides 5–19).** Read slowly; [section 5](#5-the-ideas-step-by-step) explains each step again. Make sure you can fill in the big-M table on slide 14 yourself.
 - [ ] **Step 3 – Rotation (slides 20–23).**
 - [ ] **Step 4 – Notebook 1.** Run it and compare `v` with the six-item result on slide 19 (12). Then do its *What do you notice?* and *Try it* cells; *Try it* 2 reproduces the four-table results of slides 19 (12) and 23 (11).
 - [ ] **Step 5 – The cost of binary variables (slides 32–34).** Read these now: they explain why notebook 2 is slow.
@@ -291,14 +291,14 @@ Each notebook starts with a cell that states the problem, how to run it and the 
 ### Notebook 4 – Keep connected tables close (slides 24–29)
 
 - **Problem:** the four tables of the slides on a 20 × 20 floor, rotation allowed. Five pairs are connected: $t_1$–$t_2$, $t_1$–$t_3$, $t_1$–$t_4$, $t_2$–$t_3$ and $t_3$–$t_4$, read from the diagram on slide 25. The objective is the smallest total rectilinear distance between the centres of connected tables.
-- **Expected result:** `Status: optimal` and a total distance (see [assumption A2](#11-assumptions-made-in-this-readme)), then:
+- **Expected result:** `Status: optimal` and `Total rectilinear distance: 30.0` (see [assumption A2](#11-assumptions-made-in-this-readme)), then:
   - one line per table with its corner and rotation;
   - one line per connected pair with its across and up/down distance;
   - a plot showing the tables inside the dashed floor outline, with each connection drawn as an L-shaped path between the centres.
 - **How to check your result yourself:**
   - in the plot, all four tables lie inside the dashed outline and do not overlap;
   - for each connected pair, the across plus up/down distances printed add up, over all five pairs, to the total distance;
-  - in the *Try it* (floors 8 × 20 and 10 × 15), the total distance is never smaller than on 20 × 20.
+  - in the *Try it*, the total distance is never smaller than on 20 × 20: it is **30.0** on 8 × 20 and **32.0** on 10 × 15.
 - **Try it:** the original line is `W, H = 20, 20      # floor size (first picture on the Results slide)`.
 
 ---
@@ -428,9 +428,9 @@ $2\binom{7}{2} = 42$ binaries, so $2^{42} \approx 4.4 \times 10^{12}$ combinatio
 
 ## 11. Assumptions made in this README
 
-- **A1 – Site address.** The address <https://ctsallis.github.io/operational_research/> is the default GitHub Pages address for this repository. The site's deployment workflow publishes to GitHub Pages, but the address itself was not confirmed in the repository files. If the course gives you a different link, use that one.
-- **A2 – Notebook 4 numbers.** Notebook 4 passes the repository's automatic browser test, so it runs to the end. Its total distance for each floor was not recorded when this README was written. The README therefore gives checks you can make yourself instead of numbers.
+- **A1 – Site address.** The address <https://ctsallis.github.io/operational_research/> is the one given in the repository's main `README.md`, and the site's deployment workflow publishes to GitHub Pages. If the course gives you a different link, use that one.
+- **A2 – Notebook 4 numbers.** Notebook 4 passes the repository's automatic browser test, so it runs to the end. Its total distances (30.0 on 20 × 20, 30.0 on 8 × 20, 32.0 on 10 × 15) come from a desktop-Python run with the same HiGHS solver. The browser should print the same totals, but the positions and rotations can differ.
 - **A3 – Running times.** "About half a minute" (notebook 1, *Mums* puzzle) and "2–4 minutes" (notebook 2) come from the automatic browser test and the notebooks' own notes. Your browser and computer may be faster or slower.
 - **A4 – Connections in notebook 4.** The five connected pairs were read from the diagram on slide 25. The code behind the pictures on slide 29 is not in the course files, so those pictures may use slightly different settings.
 - **A5 – No tutorial.** This week has no tutorial sheet or answers in the course files. The practice questions here and in the notebooks replace them.
-- **A6 – Background weeks.** Weeks 05 and 07 are suggested for revision from their titles (mixed-integer programming, job shop scheduling). This README does not describe their content.
+- **A6 – Background weeks.** Weeks 05 and 07 are suggested for revision because Week 05 introduces binary variables (with the linking constraint $x_i \le 10\,\delta_i$) and Week 07 uses big-M either/or constraints for job shop scheduling. This README does not describe their content further.

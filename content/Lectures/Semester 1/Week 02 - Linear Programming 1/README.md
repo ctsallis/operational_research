@@ -311,7 +311,7 @@ correct.
 | Problem | What to do |
 | --- | --- |
 | The site keeps loading, or the kernel stays busy | The first run downloads Python. Wait a minute; if nothing happens, reload the page. Use Chrome, Edge or Firefox. |
-| `ModuleNotFoundError` | Run `00_START_HERE.ipynb` again (**Run → Run All Cells**). Installs only last for the open tab. |
+| `ModuleNotFoundError` | This week's notebooks need no install (`linprog` is part of SciPy, which is already on the site). Reload the page and run the notebook again from the top (**Run → Run All Cells**). |
 | My edited notebook has disappeared | Edits live only in that browser. Always **Download** your work before leaving (section 4). |
 | A `.pptx`, `.docx` or `.xlsx` does not open on the site | That is expected: download it and open it in PowerPoint, Word or Excel (section 4). |
 | No **Solver** button in Excel | Switch the add-in on (section 4). Click **Enable Editing** if the file opened in Protected View. |
