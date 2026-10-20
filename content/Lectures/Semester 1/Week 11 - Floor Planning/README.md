@@ -102,7 +102,7 @@ When a *Try it* asks you to change a line, the original line is given in this RE
 
 Tick each step when you finish it.
 
-- [ ] **Step 1 – Recap (slides 1–4).** A small linear program and the same problem with $x$ forced to be an integer. Check that you understand why the optimum moves from $(1.9, 2.9)$ with $P^* = 13.95$ to $(2, 2.833)$ with $P^* = 13.917$.
+- [ ] **Step 1 – Recap (slides 2–4).** A small linear program and the same problem with $x$ forced to be an integer. Check that you understand why the optimum moves from $(1.9, 2.9)$ with $P^* = 13.95$ to $(2, 2.833)$ with $P^* = 13.917$.
 - [ ] **Step 2 – The basic packing model (slides 5–19).** Read slowly; [section 5](#5-the-ideas-step-by-step) explains each step again. Make sure you can fill in the big-M table on slide 15 yourself.
 - [ ] **Step 3 – Rotation (slides 20–23).**
 - [ ] **Step 4 – Notebook 1.** Run it and compare `v` with the six-item result on slide 19 (12). Then do its *What do you notice?* and *Try it* cells; *Try it* 2 reproduces the four-table results of slides 19 (12) and 23 (11).
