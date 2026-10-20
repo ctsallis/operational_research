@@ -476,7 +476,7 @@ Answer each question in one or two sentences, then open the answer.
 | A route prints backwards, or in a different order | Normal: the length is the same. |
 | In model 3 the two shorter routes differ from Section 7 | Normal: only the longest route (137.4) is optimised; the others can vary. |
 | The notebook is stuck or behaves strangely after many changes | **Kernel → Restart Kernel**, then run all cells from the top. |
-| You changed the notebook and want the original values back | The data cell's original values are: `capacity = 15`, `num_vehicles = 3`, and the `coords`/`demand` of nodes 1–8 in Section 7. Better: experiment on a duplicate (right-click → **Duplicate**). |
+| You changed the notebook and want the original values back | The data cell's original values are: `capacity = 15`, `num_vehicles = 3`, `coords = {1: (50, 50), 2: (20, 80), 3: (35, 90), 4: (80, 85), 5: (90, 60), 6: (75, 20), 7: (40, 15), 8: (15, 40)}` and `demand = {1: 0, 2: 4, 3: 3, 4: 5, 5: 4, 6: 6, 7: 3, 8: 5}`. Better: experiment on a duplicate (right-click → **Duplicate**). |
 
 ---
 

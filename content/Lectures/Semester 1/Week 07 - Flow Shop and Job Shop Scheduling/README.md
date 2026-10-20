@@ -148,8 +148,8 @@ Another way to get them: on the course site, right-click the file in the file li
   page 5 the network for "A+B and D+E" is for the wrong order (R T S Q P, 72). **Use the `.docx` in
   `4 Tutorial Answers` instead.**
 
-**About `5 Source Files`.** Every script has a notebook version, and the first cell of that notebook names the
-script it came from. The notebooks use the HiGHS solver, which runs in the browser.
+**About `5 Source Files`.** Every Python script has a notebook version, and the first cell of that notebook names the
+script it came from. The notebooks that solve a model use the HiGHS solver, which runs in the browser.
 
 ---
 

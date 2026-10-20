@@ -198,7 +198,7 @@ c→e 5, c→t 12.
 | 15–16 | b (6) | c: 6 + 11 = 17 via b; e: 6 + 3 = 9 < 10, so 9 via b |
 | 17–18 | e (9) | t: 9 + 6 = 15 via e (d is already permanent, so e → d is skipped) |
 | 19–20 | t (15) | none (no edge leaves t) |
-| 21–22 | c (17) | none: e is permanent, and 17 + 12 = 29 is not smaller than 15 |
+| 21–22 | c (17) | none: e and t are permanent (and 17 + 12 = 29 is not smaller than 15 anyway) |
 | 23–28 | Done | Backwards from t: t ← e ← b ← d ← s. **Shortest path s–d–b–e–t, length 15** |
 
 Final labels: s 0 (−), b 6 (d), c 17 (b), d 2 (s), e 9 (b), t 15 (e).
@@ -238,7 +238,7 @@ reaches every vertex, contains no cycle and has the **smallest possible total we
 
 **Application (slide 37).** A fibre-optic company must connect a set of areas with cable. Laying cable
 between some pairs of areas is possible at a known cost. The cheapest way to connect every area is an
-MST. On slide 38 the existing cable reaches area A.
+MST. On slide 39 the existing cable reaches area A.
 
 **MST and shortest path are different questions.** A shortest path connects **two** vertices as
 cheaply as possible. An MST connects **all** vertices as cheaply as possible, and the route between two
@@ -484,7 +484,8 @@ How to read the printed lines:
   columns `v`, `d_v`, `pi_v` (pi = π).
 - Prim prints `select G via edge (G,D) of weight 2`: vertex G joins the tree through edge G–D.
 - Kruskal prints `(B,E) 4: F (forms a cycle)` or `(A,H) 5: T`. These are the T/F column of the slides.
-- When values are equal, the notebook breaks ties by taking the vertex or edge listed first. A different
+- When values are equal, the notebook breaks ties by taking the vertex or edge listed first (Prim: the
+  edge that comes first alphabetically). A different
   but equally valid choice of yours is still correct.
 
 ---
@@ -585,7 +586,7 @@ total cost. Practise writing out each step in a table, as in Q1.
 These points were not stated in the course material, so this README assumes them:
 
 - Students reach the files through the course site https://ctsallis.github.io/operational_research/
-  (the address in the repository's start-here notebook) and have PowerPoint and Word to open the
+  (the address in the repository's main `README.md`) and have PowerPoint and Word to open the
   downloaded `.pptx` and `.docx` files.
 - The tutorial answers in `4 Tutorial Answers` are available to you now. This README asks you to try
   each question before opening them. It does not say when the answers are released in the taught

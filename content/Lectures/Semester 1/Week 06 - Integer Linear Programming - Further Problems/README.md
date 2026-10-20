@@ -260,7 +260,7 @@ there. Watch every corridor with as few cameras as possible.
 - Why 3 cameras cannot be enough: corridors 1–2, 3–4, 5–6 and 7–8 share no corner, so no single camera
   watches two of them. Each needs its own camera.
 
-Slides 14 and 16 show a picture with "Node variables $x_u$" (one variable per vertex) and "Edge variables
+Slides 14 and 22 show a picture with "Node variables $x_u$" (one variable per vertex) and "Edge variables
 $x_{uv}$" (one variable per edge). Vertex cover uses node variables; matching (next section) uses edge
 variables. The same pictures appear in the Vodafone talk in `6 Further Reading`.
 

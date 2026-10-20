@@ -306,7 +306,7 @@ you notice?") with its answer.
 To check a single result quickly, open the matching box below.
 
 <details>
-<summary>Exercise 1 and 2 – the three determinants</summary>
+<summary>Exercises 1 and 2 – the three determinants</summary>
 
 $-2$, $10$ and $0$. The first two matrices have an inverse, so a system with either matrix has
 exactly one solution. The third is singular (its second row is twice its first), so a system with
