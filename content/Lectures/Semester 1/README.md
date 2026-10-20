@@ -148,7 +148,7 @@ Each week assumes the earlier ones. The table lists what each weekly README says
 | 08 | The README lists no earlier weeks: the algorithms are done by hand |
 | 09 | Weeks 05–06 (binary variables, MILP), earlier weeks for Pyomo, Week 08 (networks) |
 | 10 | Week 09 (TSP tours and the variable $x_{ij}$); its slides 3–5 recap it |
-| 11 | Week 05 (binary variables, big-M), Week 07 (either/or constraints) and basic Pyomo |
+| 11 | Week 05 (binary variables), Week 07 (big-M either/or constraints) and basic Pyomo |
 
 Some examples **come back** in later weeks. When you meet one again, look back at where it started:
 
@@ -384,7 +384,7 @@ Each weekly README has its own table of problems. These are the ones that recur 
 | What you see | What to do |
 | --- | --- |
 | The notebook says "busy" or the first cell runs for a long time | The first run downloads Python and the packages. Wait about a minute. If nothing happens, reload the page and run the first cell again. |
-| `ModuleNotFoundError` (for example `No module named 'pyomo'`) | Run the notebook's first code cell again (or `00_START_HERE.ipynb` in Week 02). Installs last only for the open tab. |
+| `ModuleNotFoundError` (for example `No module named 'pyomo'`) | Run **this** notebook's first code cell again. Each notebook has its own Python, so an install in another notebook (or before a page reload) does not count. Week 02's notebooks need no install. |
 | `NameError: name '…' is not defined` | A cell was run before the cell above it. Choose **Run → Run All Cells**, or **Kernel → Restart Kernel and Run All Cells…** |
 | `ApplicationError: No executable found for solver 'glpk'` | Use `SolverFactory('appsi_highs')`. GLPK and CBC do not run in the browser. |
 | The kernel dies, or "table index is out of bounds" | You used SciPy's `linprog` and Pyomo in the same notebook. Keep them in separate notebooks. |
@@ -554,9 +554,9 @@ handbook.
    2526.pdf` (two folders up from this page). Week 08 notes that the handbook calls Week 8 *"Network
    Models: Transportation and Transhipment Problem"*, but the Week 08 folder teaches shortest paths and
    minimum spanning trees. Week 08 says transhipment examples are in Semester 2.
-4. **Course site address.** Weeks 02, 08, 10 and 11 list the address
-   <https://ctsallis.github.io/operational_research/> as an assumption rather than a confirmed fact.
-   Week 10 takes it from the link on its last slide. Weeks 02 and 07 also use longer forms that start
+4. **Course site address.** The repository's main `README.md` gives the address
+   <https://ctsallis.github.io/operational_research/>. Weeks 02, 08, 10 and 11 also list it among their
+   assumptions; Week 10 takes it from the link on its last slide. Weeks 02 and 07 also use longer forms that start
    with the same address (`…/lab/index.html`). If your course gives you a different link, use that one.
 5. **`00_START_HERE.ipynb`.** Weeks 02–07 and 11 tell you to run it. Weeks 02–04 and 07 say once per
    session; Weeks 05, 06 and 11 say in your first session. Weeks 01, 08, 09 and 10 do not mention it.
@@ -564,11 +564,10 @@ handbook.
 6. **When answers become available.** Several answer notebooks (Weeks 03, 04 and 05) say "Release after
    the practical", but the answers are already in the folders. The weekly READMEs assume a student
    working alone tries each question first.
-7. **Pyomo start week.** Week 09 says Pyomo was used in "Weeks 02–06", but Week 02 uses only `linprog`
-   and Excel; Pyomo starts in Week 03.
-8. **The HiGHS log.** Weeks 03 and 05–07 say HiGHS prints a long log in the browser, while Week 11's
-   notebooks say `tee=False` hides it. Either way, the result lines at the end are what matter.
-9. **After Week 11.** The Week 11 README does not say what comes next. Week 08 refers to a Semester 2
+7. **The HiGHS log.** Weeks 03 and 05–07 say HiGHS prints a long log in the browser, while Week 11's
+   notebooks 2–4 say `tee=False` hides it (Week 11's notebook 1 asks for the log with `tee=True`).
+   Either way, the result lines at the end are what matter.
+8. **After Week 11.** The Week 11 README does not say what comes next. Week 08 refers to a Semester 2
    folder, but no Semester 1 README describes it.
-10. **Software versions.** The menu names (Run, Kernel, Open With, Duplicate) and the Office steps are
+9. **Software versions.** The menu names (Run, Kernel, Open With, Duplicate) and the Office steps are
     those described when the weekly READMEs were written; they may change slightly.
