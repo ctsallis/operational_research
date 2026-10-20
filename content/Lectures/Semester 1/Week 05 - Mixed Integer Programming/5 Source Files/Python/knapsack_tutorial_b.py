@@ -3,7 +3,7 @@ from pyomo.environ import *
 # Create a concrete model
 model = ConcreteModel()
 
-# Define binary variables
+# Define integer variables (any whole number >= 0)
 model.x = Var(range(8), within=NonNegativeIntegers)
 
 # Define the objective function values

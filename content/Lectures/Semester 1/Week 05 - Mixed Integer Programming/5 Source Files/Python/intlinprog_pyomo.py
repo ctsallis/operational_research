@@ -3,7 +3,7 @@ from pyomo.environ import *
 # Create a concrete model
 model = ConcreteModel()
 
-# Define the integer decision variables with lower and upper bounds
+# Define the integer decision variables x[0] (= x) and x[1] (= y): whole numbers >= 0, no upper bound
 model.x = Var([0, 1], domain=NonNegativeIntegers)
 
 # Define the objective function coefficients as a list
