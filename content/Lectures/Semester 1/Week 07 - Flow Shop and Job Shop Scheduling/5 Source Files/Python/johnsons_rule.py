@@ -15,11 +15,11 @@ def johnsons_rule_rec(M):
         
         if ind[0] == 0:
             # add the job to the front of the list
-            front.append(ind[1])
+            front.append(int(ind[1]))
             return johnsons_rule_rec_inner(M, front, end)
         else:
             # add the job to the end of the list
-            end.insert(0, ind[1])
+            end.insert(0, int(ind[1]))
             return johnsons_rule_rec_inner(M, front, end)
     
     # copy the array so we don't modify the original
@@ -42,10 +42,10 @@ def johnsons_rule_iter(M):
 
             if ind[0] == 0:
                 # add the job to the front of the list
-                front.append(ind[1])
+                front.append(int(ind[1]))
             else:
                 # add the job to the end of the list
-                end.insert(0, ind[1])
+                end.insert(0, int(ind[1]))
 
     return front + end
 
