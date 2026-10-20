@@ -45,7 +45,7 @@ You will use these ideas from earlier weeks. If one of them is unclear, look bac
 | You need | Where it was taught |
 | --- | --- |
 | Binary variables (a variable that can only be 0 or 1) and mixed-integer linear programs (MILP) | Weeks 05 and 06 |
-| Reading and running a Pyomo model: `Var`, `Objective`, `Constraint`, `SolverFactory` | Weeks 02–06 |
+| Reading and running a Pyomo model: `Var`, `Objective`, `Constraint`, `SolverFactory` | Weeks 03–06 |
 | Networks: cities as vertices, roads as edges with a weight (distance or cost) | Week 08 |
 
 You do **not** need to install anything. Everything runs in your web browser.
