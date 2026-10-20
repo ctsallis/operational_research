@@ -29,7 +29,7 @@ Every Python example runs **in your web browser** on the course site. You do not
 | `.pdf` slides, sheets, answers | Double-click: it opens in the browser's PDF viewer (if it does not, right-click → *Download*) |
 | `.md` notes and `README.md` files | Right-click → *Open With* → *Markdown Preview* (double-clicking shows the raw text) |
 | `.xlsx` workbook (Weeks 02 and 07) | Download it and open it in desktop Excel. Week 02 needs the **Solver** add-in |
-| `.pptx`, `.docx` | Week 02: the slides, tutorial sheet and answers. Download them and open them in PowerPoint or Word. Other weeks: editable originals for staff, in `5 Source Files`; you do not need them |
+| `.pptx`, `.docx` | Weeks 02 and 03: the slides, tutorial sheets and answers. Download them and open them in PowerPoint or Word. Other weeks: editable originals for staff, in `5 Source Files`; you do not need them |
 
 One exercise needs Google Colab: Week 07 job shop tutorial Q4–Q5 (Google OR-Tools does not run in a
 browser).
@@ -42,7 +42,7 @@ Every week uses the same numbered folders (a week only has the folders it needs)
 
 | Folder | What is in it | When to use it |
 | --- | --- | --- |
-| `1 Lecture` | Slides (PDF) and any lecture notes | Read before or during the lecture |
+| `1 Lecture` | Slides (PDF; PowerPoint in Weeks 02 and 03) and any lecture notes | Read before or during the lecture |
 | `2 Lecture Demos` | Notebooks (and spreadsheets) shown in the lecture, numbered in the order they are used | Run them in number order |
 | `3 Tutorial` | The tutorial sheet | The practical session |
 | `4 Tutorial Answers` | Worked answers and answer notebooks | After you have tried the tutorial |
@@ -61,7 +61,7 @@ Each week also has a `README.md` that lists its files.
 | --- | --- | --- | --- | --- | --- |
 | 01 | Introduction to OR; vectors, matrices and inequalities | Slides | `1 Vectors and matrices in NumPy` (do this before the tutorial) | Tutorial notebook, Exercises 1–8 (Exercises 5–6 use desmos.com). Answers: one notebook | – |
 | 02 | Linear Programming 1: formulation, graphical solution | Slides (.pptx); *Simplex demo* (.pptx, optional) | `1 LP with SciPy linprog`; `2 LP with Excel Solver.xlsx` (desktop Excel) | Tutorial Q1–Q6 (Q4 in Excel). Answers: Word file, five notebooks and a Q4 workbook | Week 01 matrix form |
-| 03 | Linear Programming 2: Pyomo, the diet problem, integer and mixed-integer LP | Slides | Demos 1–6 in order (the week's README gives the PDF page for each) | Tutorial Q1 (LP, ILP, MILP) and Q2 (Icki-Toffee). Answers: PDF and three notebooks | Week 02 lecture LP and diet problem |
+| 03 | Linear Programming 2: Pyomo, the diet problem, integer and mixed-integer LP | Slides (.pptx); *Simplex demo* (.pptx, optional) | Demos 1–6 in order (the week's README gives the slide for each) | Tutorial Q1 (LP, ILP, MILP) and Q2 (Icki-Toffee). Answers: Word file and three notebooks | Week 02 lecture LP and diet problem |
 | 04 | Mathematical Programming: Modelling | Slides; *Slack Variables* | `1 Pyomo expressions and constraints` | Tutorial Q1 (Icki-Toffee objectives), Q2 (two factories). Answers: PDF and six notebooks | Week 03 Icki-Toffee model |
 | 05 | Mixed Integer Programming: binary variables | Slides | Demos 1–7; demo 8 (vertex cover) is a preview of Week 06 | Tutorial Q1 (knapsack), Q2 (fire stations), Q3 (Icki-Toffee). Answers: PDF and five notebooks | Weeks 03–04 |
 | 06 | Integer LP: further problems (set cover, vertex cover, assignment) | Slides (the *annotated* version is the 2023 lecture with handwritten notes, optional) | Demos 1–7: each model is written three ways | No separate sheet: the tasks are on the last slide (demo 2 is the incidence-matrix version it asks for). Answers: one notebook (task 5) | Week 05 fire stations and vertex cover |
