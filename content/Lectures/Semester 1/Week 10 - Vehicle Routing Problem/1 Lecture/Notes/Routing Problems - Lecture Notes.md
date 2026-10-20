@@ -508,7 +508,7 @@ To do this we will need to know the length of each of the routes for the vehicle
 
 A nice way to visualise this idea is to imagine we are creating a copy of the network for each vehicle, we can then track which edges are used in each of the networks.
 
-See the *Illustration* slide (slide 30, page 29 of the PDF) of `Vehicle Routing Problem.pdf`: the network for all vehicles and one copy per vehicle.
+See the *Illustration* slide (slide 30) of `Vehicle Routing Problem.pptx` in `1 Lecture`: the network for all vehicles and one copy per vehicle.
 
 Let:
 - $V$ be the set of locations (city 1 is the depot),
