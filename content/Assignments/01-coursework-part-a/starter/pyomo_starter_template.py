@@ -11,12 +11,12 @@ from pyomo.environ import *
 
 model = ConcreteModel()
 
-model.x = Var(range(2), domain=NonNegativeReals)
+model.x = Var(range(2), domain=NonNegativeReals)  # decision variables x[0], x[1] >= 0
 
-model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)
+model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)  # maximise 5 x0 + 7 x1
 
-model.constraint1 = Constraint(expr=3*model.x[0] + 2*model.x[1] <= 144)
-model.constraint2 = Constraint(expr=model.x[0] >= 4*model.x[1])
+model.constraint1 = Constraint(expr=3*model.x[0] + 2*model.x[1] <= 144)  # resource limit
+model.constraint2 = Constraint(expr=model.x[0] >= 4*model.x[1])  # x0 at least four times x1
 
 print("Displaying model #################\n")
 model.pprint()

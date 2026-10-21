@@ -28,15 +28,22 @@ Run the template on the [course website](https://ctsallis.github.io/operational_
 | Step | Open | Use |
 |---|---|---|
 | 1 | `solutions/part-a-model-solutions.docx` | Model answers to Questions 1–3 (graphs, formulations, solver output) |
-| 2 | `staff/part-a-marking-rubric-template.xlsx` | Blank marking sheet. Make a copy **outside this repository**; duplicate the `Rubric` sheet once per student |
+| 2 | `solutions/part_a_solutions.ipynb` (or `.py`) | Worked Python answers to every part of the 2025/26 questions, with explanations (new, see below) |
+| 3 | `staff/part-a-marking-rubric-template.xlsx` | Blank marking sheet. Make a copy **outside this repository**; duplicate the `Rubric` sheet once per student |
 
 Marking with the sheet: for each sub-question (rows Q1a–Q3d) enter a score out of 10 in the column of the
 grade band awarded (F … A+); the `Mark` column scales it to the marks available. Do the same for the three
 presentation rows. The sheet totals automatically: answers scaled to 85% + presentation scaled to 15% =
 final mark (cell K35). Enter final marks in the university's gradebook; never save completed sheets here.
 
-The model solutions were produced with MATLAB and Desmos (screenshots in the Word file); there is no
-separate solution code for Part A.
+The Word model answers were produced with MATLAB and Desmos (screenshots in the Word file) for an earlier
+version of the questions: they do not cover the basic-solution table, the binding constraints or the Python
+parts of the 2025/26 brief. `solutions/part_a_solutions.ipynb` (and the same code as `part_a_solutions.py`),
+added in the October 2026 review and not part of the original module material, answers every part in Python
+with Pyomo + HiGHS; it runs on the
+[course website](https://ctsallis.github.io/operational_research/lab/index.html?path=Assignments/01-coursework-part-a/solutions/part_a_solutions.ipynb)
+or with `python solutions/part_a_solutions.py`. Results: Q1 x = 5, y = 7.5, maximum 27.5; Q2 £5,333.33 /
+£2,666.67 / £2,000, return £706.67; Q3 items 1, 3, 4, 5, 10, value £27 (LP relaxation £28.44).
 
 ## Files
 
@@ -46,4 +53,6 @@ separate solution code for Part A.
 | `starter/pyomo_starter_template.ipynb` | Minimal Pyomo + HiGHS model, notebook version (runs in the browser) |
 | `starter/pyomo_starter_template.py` | The same model as a script |
 | `solutions/part-a-model-solutions.docx` | Model answers (staff) |
+| `solutions/part_a_solutions.ipynb` | Worked Python answers to every question, notebook version (runs in the browser; new in the October 2026 review) |
+| `solutions/part_a_solutions.py` | The same answers as a script |
 | `staff/part-a-marking-rubric-template.xlsx` | Blank rubric marking sheet (staff) |

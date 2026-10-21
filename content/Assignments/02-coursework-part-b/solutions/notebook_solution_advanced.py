@@ -1,4 +1,4 @@
-"""Part B model solution, advanced approach: random-forest forecast, gravity allocation inside a MILP.
+"""Part B model solution, advanced approach: random-forest forecast, demand flows decided inside a MILP.
 
 Plain-script version of `notebook_solution_advanced.ipynb`; run it with `python notebook_solution_advanced.py`.
 The `# %%` lines mark the notebook cells (VS Code can run them one by one).
@@ -388,47 +388,47 @@ print(f"  Max: {store_metrics['utilization'].max():.1%}")
 # %% [markdown]
 # ## 10. Key Takeaways
 #
-# ### Approach Used: Embedded Gravity Model (Advanced)
+# ### Approach Used: Flexible Allocation (Advanced)
 # - **Model**: Mixed-Integer Linear Program (MILP)
 #   - Binary variables: store open/closed
 #   - Continuous variables: demand flows (zone → store)
-# - **Demand allocation**: Dynamic (adjusts based on which stores actually open)
-# - **Constraints**: Gravity model, zone demand caps, store capacity
-# - **Pros**: Truly optimal, accurate demand allocation
-# - **Cons**: Larger model (~24k variables, slower solve)
+# - **Demand allocation**: Dynamic (adjusts based on which stores actually open); no gravity shares are imposed, so each zone's demand goes to the most profitable open store within reach (in practice the nearest)
+# - **Constraints**: zone demand caps, store capacity
+# - **Pros**: Optimal for this model, demand allocation adapts to the stores opened
+# - **Cons**: Larger model than the simple approach (304 variables here)
 #
-# ### Results
-# - **Stores to open**: X out of 80
-# - **Profit**: £Y (vs £Z for all stores → £W improvement)
-# - **Demand served**: A units
-# - **Average utilization**: B%
+# ### Results (TEST001)
+# - **Stores to open**: 46 out of 80
+# - **Profit**: about £9.83M (after opening and service costs)
+# - **Demand served**: about 47,550 units
+# - **Average utilisation**: about 10% of capacity (no store is near its capacity in this dataset)
 #
 # ### Insights
-# 1. **Selective reopening is critical**: Opening all stores yields £11-12M profit, but optimized subset yields £14-17M
-# 2. **Demand cannibalization quantified**: When stores compete, total demand captured is same but costs are lower
+# 1. **Selective reopening pays**: 46 stores earn more than the simple approach's 55 (about £9.83M against £8.80M)
+# 2. **Cannibalisation**: when a store closes, its customers move to another open store nearby, so fewer stores are needed for almost the same demand served
 # 3. **Geographic clustering**: Open stores tend to be well-distributed, avoiding redundancy
-# 4. **Capacity utilization**: Most open stores operate at 60-90% capacity (efficient)
+# 4. **Capacity is not the limit**: utilisation is low, so the decision is driven by opening costs and reachable demand
 #
 # ### Comparison: Simple vs Advanced
 # - **Simple approach**: Pre-computes demand assuming all stores open, then selects subset
 #   - Faster to solve
 #   - Approximate (demand allocation doesn't adapt)
-# - **Advanced approach**: Embeds gravity model in ILP
-#   - Slower to solve (larger model)
-#   - Truly optimal (demand allocation adapts dynamically)
-#   - Typically 2-5% better profit than simple approach
+# - **Advanced approach**: Demand flows are decided inside the MILP
+#   - Larger model
+#   - Optimal for its assumptions (demand allocation adapts)
+#   - About 12% more profit than the simple approach on TEST001
+# - The comparison in section 9 is not fully like-for-like: the all-open baseline splits demand by gravity shares and leaves out the service cost, while the optimised profit includes it
 #
 # ### Recommendations for Yodafone
-# 1. **Reopen X stores** (list provided in solution)
-# 2. **Expected annual profit**: £Y
-# 3. **Investment required**: £Z (opening costs)
-# 4. **ROI**: W% in first year
-# 5. **Risk mitigation**: Perform sensitivity analysis on demand forecasts (±10% uncertainty)
+# 1. **Reopen the 46 stores** listed above
+# 2. **Expected annual profit**: about £9.83M
+# 3. **Investment required**: about £3.69M (opening costs)
+# 4. **Risk mitigation**: test the plan against demand and cost scenarios (this notebook does not include a scenario analysis; the brief asks for at least two)
 #
 # ### Limitations
-# - Assumes demand forecasts are accurate (±X% error possible)
+# - Assumes the demand forecasts are accurate; the forest's out-of-sample fit is much weaker than its training R² suggests
 # - No consideration of:
 #   - Multi-period operations (dynamic demand over time)
 #   - Competitor responses
 #   - Workforce/logistics constraints
-# - Gravity model is simplified (real customer behavior more complex)
+# - Customers are assumed to go wherever the model sends them (no customer-choice or gravity behaviour)

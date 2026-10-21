@@ -15,7 +15,7 @@ def run_helpdesk_simulation(arrival_rate_per_hour: float, mean_service_minutes: 
     def arrivals(env, desk):
         student_number = 0
         while True:
-            interarrival = rng.expovariate(arrival_rate_per_hour / 60.0)
+            interarrival = rng.expovariate(arrival_rate_per_hour / 60.0)  # minutes until the next student
             yield env.timeout(interarrival)
             if env.now > run_minutes:
                 break
@@ -29,7 +29,7 @@ def run_helpdesk_simulation(arrival_rate_per_hour: float, mean_service_minutes: 
             yield request
             wait = env.now - arrival_time
             wait_times.append(wait)
-            service_time = rng.expovariate(1.0 / mean_service_minutes)
+            service_time = rng.expovariate(1.0 / mean_service_minutes)  # random service time (minutes)
             yield env.timeout(service_time)
 
     env = simpy.Environment()
@@ -53,7 +53,7 @@ def run_priority_helpdesk(arrival_rate_per_hour: float, mean_service_minutes: fl
     def arrivals(env, desk):
         student_number = 0
         while True:
-            interarrival = rng.expovariate(arrival_rate_per_hour / 60.0)
+            interarrival = rng.expovariate(arrival_rate_per_hour / 60.0)  # minutes until the next student
             yield env.timeout(interarrival)
             if env.now > run_minutes:
                 break
@@ -68,7 +68,7 @@ def run_priority_helpdesk(arrival_rate_per_hour: float, mean_service_minutes: fl
             yield request
             wait = env.now - arrival_time
             results.append({"student": name, "priority": is_priority, "wait": wait})
-            service_time = rng.expovariate(1.0 / mean_service_minutes)
+            service_time = rng.expovariate(1.0 / mean_service_minutes)  # random service time (minutes)
             yield env.timeout(service_time)
 
     env = simpy.Environment()

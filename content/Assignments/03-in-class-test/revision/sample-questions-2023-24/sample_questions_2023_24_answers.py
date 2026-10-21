@@ -6,19 +6,21 @@ The `# %%` lines mark the notebook cells (VS Code can run them one by one).
 
 # %% [markdown]
 # ## Question 1a
+#
+# $x_0$, $x_1$ are the units of X and Y. The contribution per unit is the selling price minus the cost of the hours at stages A, B and C: $24 - 19 = 5$ for X and $23 - 16 = 7$ for Y. Maximise $5x_0 + 7x_1$ subject to the hours available at the three stages. Expect $x_0 = 10.5$, $x_1 = 16.5$, contribution 168.
 
 # %%
 from pyomo.environ import *
 
 model = ConcreteModel()
 
-model.x = Var(range(2), domain=NonNegativeReals)
+model.x = Var(range(2), domain=NonNegativeReals)  # x[0] = units of X, x[1] = units of Y
 
-model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)
+model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)  # contribution: revenue minus stage costs
 
-model.constraint1 = Constraint(expr=model.x[0] + 3*model.x[1] <= 60)
-model.constraint2 = Constraint(expr=4*model.x[0] + model.x[1] <= 75)
-model.constraint3 = Constraint(expr=model.x[0] +model.x[1] <= 27)
+model.constraint1 = Constraint(expr=model.x[0] + 3*model.x[1] <= 60)  # hours at stage A
+model.constraint2 = Constraint(expr=4*model.x[0] + model.x[1] <= 75)  # hours at stage B
+model.constraint3 = Constraint(expr=model.x[0] +model.x[1] <= 27)  # hours at stage C
 
 print("Displaying model #################\n")
 model.pprint()
@@ -34,20 +36,22 @@ model.display()
 
 # %% [markdown]
 # ## Question 1b
+#
+# "At least 60% of the products are X": $x_0 \ge 0.6(x_0 + x_1)$, i.e. $x_0 \ge \tfrac{3}{2}x_1$. Expect contribution 155.36.
 
 # %%
 from pyomo.environ import *
 
 model = ConcreteModel()
 
-model.x = Var(range(2), domain=NonNegativeReals)
+model.x = Var(range(2), domain=NonNegativeReals)  # x[0] = units of X, x[1] = units of Y
 
-model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)
+model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)  # contribution: revenue minus stage costs
 
-model.constraint1 = Constraint(expr=model.x[0] + 3*model.x[1] <= 60)
-model.constraint2 = Constraint(expr=4*model.x[0] + model.x[1] <= 75)
-model.constraint3 = Constraint(expr=model.x[0] +model.x[1] <= 27)
-model.constraint4 = Constraint(expr=model.x[0] >= (3/2)*model.x[1])
+model.constraint1 = Constraint(expr=model.x[0] + 3*model.x[1] <= 60)  # hours at stage A
+model.constraint2 = Constraint(expr=4*model.x[0] + model.x[1] <= 75)  # hours at stage B
+model.constraint3 = Constraint(expr=model.x[0] +model.x[1] <= 27)  # hours at stage C
+model.constraint4 = Constraint(expr=model.x[0] >= (3/2)*model.x[1])  # at least 60% of products are X
 
 print("Displaying model #################\n")
 model.pprint()
@@ -63,21 +67,23 @@ model.display()
 
 # %% [markdown]
 # ## Question 1c
+#
+# "Total production cost below 400": the stage costs are 19 per X and 16 per Y, so add $19x_0 + 16x_1 \le 400$. Expect $x_0 \approx 13.48$, $x_1 \approx 8.99$, contribution $\approx 130.34$, as in the written answers.
 
 # %%
 from pyomo.environ import *
 
 model = ConcreteModel()
 
-model.x = Var(range(2), domain=NonNegativeReals)
+model.x = Var(range(2), domain=NonNegativeReals)  # x[0] = units of X, x[1] = units of Y
 
-model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)
+model.obj = Objective(expr=5*model.x[0]+7*model.x[1], sense=maximize)  # contribution: revenue minus stage costs
 
-model.constraint1 = Constraint(expr=model.x[0] + 3*model.x[1] <= 60)
-model.constraint2 = Constraint(expr=4*model.x[0] + model.x[1] <= 75)
-model.constraint3 = Constraint(expr=model.x[0] +model.x[1] <= 27)
-model.constraint4 = Constraint(expr=model.x[0] >= (3/2)*model.x[1])
-model.constraint5 = Constraint(expr=10*model.x[0]+12*model.x[1]<=250)
+model.constraint1 = Constraint(expr=model.x[0] + 3*model.x[1] <= 60)  # hours at stage A
+model.constraint2 = Constraint(expr=4*model.x[0] + model.x[1] <= 75)  # hours at stage B
+model.constraint3 = Constraint(expr=model.x[0] +model.x[1] <= 27)  # hours at stage C
+model.constraint4 = Constraint(expr=model.x[0] >= (3/2)*model.x[1])  # at least 60% of products are X
+model.constraint5 = Constraint(expr=19*model.x[0]+16*model.x[1]<=400)  # total production cost below 400
 
 print("Displaying model #################\n")
 model.pprint()
@@ -93,6 +99,8 @@ model.display()
 
 # %% [markdown]
 # ## Question 3b
+#
+# A transportation model: $x_{ij}$ = units from source $i$ to customer $j$; minimise cost, respect each source's supply, meet each customer's demand exactly. Expect a minimum cost of 1200.
 
 # %%
 # Import Pyomo and the required components
@@ -154,6 +162,8 @@ else:
 
 # %% [markdown]
 # ## Question 3c
+#
+# The same model with the two route conditions of part (c) added as constraints. Expect a minimum cost of 1230.
 
 # %%
 # Import Pyomo and the required components
@@ -225,6 +235,8 @@ else:
 
 # %% [markdown]
 # ## Question 3d
+#
+# Adds depot D: goods may go direct or through D, and what enters D must leave it; route B→Z is still closed. Expect a minimum cost of 1050 (for example B→D 100, D→Y 80, D→Z 20, B→X 60, C→X 10, C→Z 90, as in the written answers).
 
 # %%
 # Import Pyomo and the required components
@@ -283,6 +295,7 @@ model.objective = Objective(rule=objective_rule, sense=minimize)
 model.supply_constraint = Constraint(model.Suppliers, rule=supply_constraint_rule)
 model.demand_constraint = Constraint(model.Consumers, rule=demand_constraint_rule)
 model.tranship_constraint = Constraint(model.Tranship, rule=tranship_constraint_rule)
+model.bz_constraint_rule = Constraint(rule=bz_constraint_rule)  # route B -> Z cannot be used
 
 # Solve the transportation problem
 solver = SolverFactory('appsi_highs')

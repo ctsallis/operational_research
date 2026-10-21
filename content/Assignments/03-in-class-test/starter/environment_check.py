@@ -8,6 +8,8 @@ The `# %%` lines mark the notebook cells (VS Code can run them one by one).
 
 # %% [markdown]
 # ## 1. Pyomo + HiGHS
+#
+# A one-variable model (maximise $2x$ with $x \le 5$) solved with HiGHS. Expect $x = 5$ and objective 10.
 
 # %%
 from pyomo.environ import *
@@ -36,6 +38,8 @@ model.display()
 
 # %% [markdown]
 # ## 2. Google OR-Tools (CP-SAT)
+#
+# A small integer model solved with CP-SAT. Expect "Maximum of objective function: 35.0" with $x = 7$, $y = 3$, $z = 5$. On the course website this cell instead says OR-Tools is not installed, which is expected there.
 
 # %%
 import importlib
@@ -80,6 +84,8 @@ if cp_model is not None:
 
 # %% [markdown]
 # ## 3. SimPy
+#
+# A process that waits 5 time units. Expect "Start at 0" then "End at 5".
 
 # %%
 import simpy

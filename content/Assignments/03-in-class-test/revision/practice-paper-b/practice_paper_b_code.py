@@ -353,16 +353,16 @@ def question_2_maximum_coverage():
         model = ConcreteModel()
         model.B = Set(initialize=bases)
         model.D = Set(initialize=districts)
-        model.x = Var(model.B, domain=Binary)
-        model.y = Var(model.D, domain=Binary)
+        model.x = Var(model.B, domain=Binary)  # 1 if base b is opened
+        model.y = Var(model.D, domain=Binary)  # 1 if district d is covered
 
         model.objective = Objective(
             expr=sum(population[d] * model.y[d] for d in model.D),
             sense=maximize,
         )
-        model.budget = Constraint(expr=sum(costs[b] * model.x[b] for b in model.B) <= 31)
-        model.limit = Constraint(expr=sum(model.x[b] for b in model.B) <= 3)
-        model.cover = Constraint(model.D, rule=lambda m, d: m.y[d] <= sum(m.x[b] for b in m.B if d in coverage[b]))
+        model.budget = Constraint(expr=sum(costs[b] * model.x[b] for b in model.B) <= 31)  # budget
+        model.limit = Constraint(expr=sum(model.x[b] for b in model.B) <= 3)  # at most 3 bases
+        model.cover = Constraint(model.D, rule=lambda m, d: m.y[d] <= sum(m.x[b] for b in m.B if d in coverage[b]))  # covered only if an open base reaches it
 
         if require_district_6:
             model.backup_6 = Constraint(expr=sum(model.x[b] for b in model.B if 6 in coverage[b]) >= 1)
@@ -472,8 +472,8 @@ def question_5_lp():
             model.objective = Objective(expr=40 * model.casings + 34 * model.inserts, sense=maximize)
             model.assembly = Constraint(expr=model.casings + 3 * model.inserts <= 90)
 
-        model.moulding = Constraint(expr=4 * model.casings + 2 * model.inserts <= 100)
-        model.market = Constraint(expr=model.inserts <= 24)
+        model.moulding = Constraint(expr=4 * model.casings + 2 * model.inserts <= 100)  # moulding hours
+        model.market = Constraint(expr=model.inserts <= 24)  # insert market cap
 
         if share_constraint:
             model.share = Constraint(expr=model.inserts >= 0.25 * (model.casings + model.inserts))
@@ -521,8 +521,8 @@ def question_6_transportation():
             expr=sum(costs[i, j] * model.x[i, j] for i in model.I for j in model.J),
             sense=minimize,
         )
-        model.supply = Constraint(model.I, rule=lambda m, i: sum(m.x[i, j] for j in m.J) == supply[i])
-        model.demand = Constraint(model.J, rule=lambda m, j: sum(m.x[i, j] for i in m.I) == demand[j])
+        model.supply = Constraint(model.I, rule=lambda m, i: sum(m.x[i, j] for j in m.J) == supply[i])  # each warehouse ships its stock
+        model.demand = Constraint(model.J, rule=lambda m, j: sum(m.x[i, j] for i in m.I) == demand[j])  # each shop gets its demand
 
         if block_w2_s2:
             model.block_route = Constraint(expr=model.x["W2", "S2"] == 0)

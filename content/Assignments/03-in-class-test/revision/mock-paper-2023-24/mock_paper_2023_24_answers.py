@@ -6,18 +6,20 @@ The `# %%` lines mark the notebook cells (VS Code can run them one by one).
 
 # %% [markdown]
 # ## Question 5b: solve the integer programme
+#
+# $x_0$, $x_1$ are the weekly units of X and Y. Maximise profit $36x_0 + 34x_1$ subject to the two raw-material limits. The variables are whole numbers (`NonNegativeIntegers`), as in the written answer. Expect $x_0 = 7$, $x_1 = 4$, profit 388.
 
 # %%
 from pyomo.environ import *
 
 model = ConcreteModel()
 
-model.x = Var(range(2), domain=NonNegativeIntegers) # x[0], x[1]
+model.x = Var(range(2), domain=NonNegativeIntegers) # x[0], x[1]: weekly units of X and Y (whole units)
 
-model.obj = Objective(expr=36*model.x[0]+34*model.x[1], sense=maximize)
+model.obj = Objective(expr=36*model.x[0]+34*model.x[1], sense=maximize)  # profit (£k)
 
-model.constraint1 = Constraint(expr=4*model.x[0] + 3*model.x[1] <= 40)
-model.constraint2 = Constraint(expr=0.2*model.x[0] + 0.3*model.x[1] <= 3)
+model.constraint1 = Constraint(expr=4*model.x[0] + 3*model.x[1] <= 40)  # raw material A available
+model.constraint2 = Constraint(expr=0.2*model.x[0] + 0.3*model.x[1] <= 3)  # raw material B available
 
 print("Displaying model #################\n")
 model.pprint()
@@ -33,19 +35,21 @@ model.display()
 
 # %% [markdown]
 # ## Question 5d: add the 3 : 1 product ratio
+#
+# The same model plus "3 units of Y for every unit of X" ($x_1 = 3x_0$). Expect $x_0 = 2$, $x_1 = 6$, profit 276: the extra rule costs 112.
 
 # %%
 from pyomo.environ import *
 
 model = ConcreteModel()
 
-model.x = Var(range(2), domain=NonNegativeIntegers) # x[0], x[1]
+model.x = Var(range(2), domain=NonNegativeIntegers) # x[0], x[1]: weekly units of X and Y (whole units)
 
-model.obj = Objective(expr=36*model.x[0]+34*model.x[1], sense=maximize)
+model.obj = Objective(expr=36*model.x[0]+34*model.x[1], sense=maximize)  # profit (£k)
 
-model.constraint1 = Constraint(expr=4*model.x[0] + 3*model.x[1] <= 40)
-model.constraint2 = Constraint(expr=0.2*model.x[0] + 0.3*model.x[1] <= 3)
-model.constraint3 = Constraint(expr=model.x[1] == 3*model.x[0] )
+model.constraint1 = Constraint(expr=4*model.x[0] + 3*model.x[1] <= 40)  # raw material A available
+model.constraint2 = Constraint(expr=0.2*model.x[0] + 0.3*model.x[1] <= 3)  # raw material B available
+model.constraint3 = Constraint(expr=model.x[1] == 3*model.x[0] )  # 3 units of Y for every unit of X
 
 print("Displaying model #################\n")
 model.pprint()
@@ -61,6 +65,8 @@ model.display()
 
 # %% [markdown]
 # ## Question 3a: FBK's optimal distribution plan
+#
+# A transportation model: $x_{ij}$ = units sent from warehouse $i$ to shop $j$. Minimise total cost; each warehouse ships at most its stock, each shop receives exactly its demand. Expect a minimum cost of 1830.
 
 # %%
 # Import Pyomo and the required components
@@ -138,6 +144,8 @@ print("Both plans are optimal:", meets_supply and meets_demand and abs(plan_cost
 
 # %% [markdown]
 # ## Question 3b: revised plan
+#
+# The same model with the two extra conditions of part (b) added as constraints. Expect a minimum cost of 2470.
 
 # %%
 # Import Pyomo and the required components
@@ -209,6 +217,8 @@ else:
 
 # %% [markdown]
 # ## Question 3c: transhipment through two new locations
+#
+# Now every unit goes warehouse → D1 or D2 → shop. One variable per arc; flow into each distribution point must equal flow out. Expect a minimum cost of 1810, lower than direct shipping.
 
 # %%
 # Import Pyomo and the required components
