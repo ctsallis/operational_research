@@ -1,5 +1,41 @@
 # Changelog
 
+## 2026-10-21: Second review: corrections, new worked solutions, explanations for students
+
+### Corrections (results that were wrong or did not match the paper)
+- `03-in-class-test/solutions/worked_solutions.ipynb`, Question 5: the centred moving averages were one period out
+  of place and used periods after 12, and the trend was fitted differently, giving MSE 455.04 / 195.83. The cell now
+  follows the paper ("periods 1–12 only") and `in_class_test_code.py`: trend 451.1756 + 11.3095t, MSE 558.40 / 184.41,
+  the same numbers as `worked-solutions.pdf`.
+- `sample_questions_2023_24_answers` (`.ipynb` and `.py`), Question 1c: the cost constraint was `10x + 12y ≤ 250`;
+  the paper and the written answers use the production cost `19x + 16y ≤ 400` (contribution 130.34, as on the answer
+  sheet). Question 3d: the "route B→Z closed" constraint was defined but never added to the model; the cost (1050) is
+  unchanged, the plan now respects the restriction.
+- Practice Paper A solutions, Question 4(b): the leftover sentence "using seed 2026" replaced (the question gives
+  fixed random numbers). Practice Paper B, Question 2: the unused "Population Covered" column, which contradicted the
+  district populations, removed. The full revision booklet regenerated from both papers; the four PDFs rebuilt.
+- Part B advanced model solution: described as an "embedded gravity model", but its MILP lets each zone's demand go
+  to any open store within reach (no gravity shares are imposed). Title, README line and Key Takeaways corrected;
+  the placeholder and out-of-date figures in both model solutions' Key Takeaways replaced by the actual results.
+- `staff/part-b-marking-grid-template.xlsx`: the note pointed to a `../marking/` folder that does not exist.
+
+### New (not part of the original module material)
+- `01-coursework-part-a/solutions/part_a_solutions.ipynb` / `.py`: worked Python answers to every part of the
+  2025/26 Part A questions (the Word model answers were written for an earlier version of the questions).
+- `03-in-class-test/revision/mock-paper-2023-24/reformatted/mock_paper_2023_24_reformatted_check.ipynb` / `.py`:
+  recomputes the reformatted mock's solutions; it shows that the moving-average table in that PDF is wrong (the
+  README gives the corrected values).
+
+### Notebooks easier to follow alone
+Opening cells now say what you should see; every code cell has a short explanation above it; constraints carry a
+one-line comment; most notebooks end with a "Try it" or "What do you notice?" question with its answer. Code, results
+and the browser set-up cell are unchanged (apart from the corrections above).
+
+### Verified
+Every script and notebook run on a computer (Python 3.13, Pyomo 6.10.1, HiGHS 1.12, OR-Tools 9.15) and in Pyodide
+314.0.0: identical results to before apart from the corrections listed above; `python tools/run_all_checks.py`
+passes.
+
 ## 2026-10-13: Review, privacy clean-up and one folder per assessment
 
 ### Privacy
