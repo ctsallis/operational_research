@@ -21,12 +21,12 @@ BENEFIT = {"A": 14, "B": 17, "C": 11, "D": 20, "E": 9, "F": 15}
 def build_model(exactly_four: bool = False):
     model = ConcreteModel()
     model.P = Set(initialize=PROJECTS)
-    model.x = Var(model.P, domain=Binary)
+    model.x = Var(model.P, domain=Binary)  # 1 if project p is selected
     model.objective = Objective(expr=sum(BENEFIT[p] * model.x[p] for p in model.P), sense=maximize)
-    model.budget = Constraint(expr=sum(COST[p] * model.x[p] for p in model.P) <= 21)
-    model.dependency = Constraint(expr=model.x["D"] <= model.x["B"])
-    model.incompatible = Constraint(expr=model.x["A"] + model.x["F"] <= 1)
-    model.choice = Constraint(expr=model.x["C"] + model.x["E"] >= 1)
+    model.budget = Constraint(expr=sum(COST[p] * model.x[p] for p in model.P) <= 21)  # budget
+    model.dependency = Constraint(expr=model.x["D"] <= model.x["B"])  # D only if B
+    model.incompatible = Constraint(expr=model.x["A"] + model.x["F"] <= 1)  # not both A and F
+    model.choice = Constraint(expr=model.x["C"] + model.x["E"] >= 1)  # at least one of C, E
     if exactly_four:
         model.count = Constraint(expr=sum(model.x[p] for p in model.P) == 4)
     return model

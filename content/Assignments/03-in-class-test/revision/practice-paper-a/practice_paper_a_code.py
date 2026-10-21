@@ -148,9 +148,9 @@ def question_1_lp():
     model.shelves = Var(domain=NonNegativeReals)
 
     model.objective = Objective(expr=58 * model.desks + 46 * model.shelves, sense=maximize)
-    model.carpentry = Constraint(expr=5 * model.desks + 3 * model.shelves <= 120)
-    model.finishing = Constraint(expr=2 * model.desks + 4 * model.shelves <= 96)
-    model.minimum_shelves = Constraint(expr=model.shelves >= 8)
+    model.carpentry = Constraint(expr=5 * model.desks + 3 * model.shelves <= 120)  # carpentry hours
+    model.finishing = Constraint(expr=2 * model.desks + 4 * model.shelves <= 96)  # finishing hours
+    model.minimum_shelves = Constraint(expr=model.shelves >= 8)  # at least 8 shelving units
 
     SOLVER.solve(model)
 
@@ -161,7 +161,7 @@ def question_1_lp():
     revised.carpentry = Constraint(expr=5 * revised.desks + 3 * revised.shelves <= 120)
     revised.finishing = Constraint(expr=2 * revised.desks + 4 * revised.shelves <= 96)
     revised.minimum_shelves = Constraint(expr=revised.shelves >= 8)
-    revised.share = Constraint(expr=revised.shelves >= 0.30 * (revised.desks + revised.shelves))
+    revised.share = Constraint(expr=revised.shelves >= 0.30 * (revised.desks + revised.shelves))  # shelving >= 30% of output
     SOLVER.solve(revised)
 
     print("\nQUESTION 1")
@@ -184,10 +184,10 @@ def question_2_milp():
     model.x = Var(model.P, domain=Binary)
 
     model.objective = Objective(expr=sum(benefit[p] * model.x[p] for p in model.P), sense=maximize)
-    model.budget = Constraint(expr=sum(cost[p] * model.x[p] for p in model.P) <= 21)
-    model.dependency = Constraint(expr=model.x["D"] <= model.x["B"])
-    model.incompatible = Constraint(expr=model.x["A"] + model.x["F"] <= 1)
-    model.choice = Constraint(expr=model.x["C"] + model.x["E"] >= 1)
+    model.budget = Constraint(expr=sum(cost[p] * model.x[p] for p in model.P) <= 21)  # budget
+    model.dependency = Constraint(expr=model.x["D"] <= model.x["B"])  # D only if B
+    model.incompatible = Constraint(expr=model.x["A"] + model.x["F"] <= 1)  # not both A and F
+    model.choice = Constraint(expr=model.x["C"] + model.x["E"] >= 1)  # at least one of C, E
 
     SOLVER.solve(model)
 
@@ -270,8 +270,8 @@ def question_4_simulation():
             stock_available = opening_stock + delivered
             sales = min(stock_available, demanded)
             closing_stock = stock_available - sales
-            overflow = max(0, closing_stock - capacity)
-            cost = 18 * capacity + 30 * overflow
+            overflow = max(0, closing_stock - capacity)  # cars that do not fit in the bays
+            cost = 18 * capacity + 30 * overflow  # £18 per bay + £30 per overflow car
             rows.append((week, opening_stock, delivered, demanded, sales, closing_stock, overflow, cost))
             total_cost += cost
             opening_stock = closing_stock
@@ -337,13 +337,13 @@ def question_6_transshipment():
         def objective_rule(model):
             return sum(transport_cost[i, j] * model.x[i, j] for (i, j) in model.Edges)
 
-        def supply_constraint_rule(model, i):
+        def supply_constraint_rule(model, i):  # depot ships at most its supply
             return sum(model.x[i, j] for j in model.Tranship) <= supply[i]
 
-        def demand_constraint_rule(model, j):
+        def demand_constraint_rule(model, j):  # clinic receives exactly its demand
             return sum(model.x[i, j] for i in model.Tranship) == demand[j]
 
-        def tranship_constraint_rule(model, v):
+        def tranship_constraint_rule(model, v):  # flow into a hub = flow out
             return sum(model.x[i, j] for (i, j) in model.Edges if j == v) - sum(model.x[i, j] for (i, j) in model.Edges if i == v) == 0
 
         model.objective = Objective(rule=objective_rule, sense=minimize)

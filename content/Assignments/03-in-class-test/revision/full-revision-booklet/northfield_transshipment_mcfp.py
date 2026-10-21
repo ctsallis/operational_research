@@ -40,13 +40,13 @@ def build_model(h1_capacity: int | None = None, ban_h2_c3: bool = False):
     def objective_rule(model):
         return sum(TRANSPORT_COST[i, j] * model.x[i, j] for (i, j) in model.Edges)
 
-    def supply_constraint_rule(model, i):
+    def supply_constraint_rule(model, i):  # depot i ships at most its supply
         return sum(model.x[i, j] for j in model.Tranship) <= SUPPLY[i]
 
-    def demand_constraint_rule(model, j):
+    def demand_constraint_rule(model, j):  # clinic j receives exactly its demand
         return sum(model.x[i, j] for i in model.Tranship) == DEMAND[j]
 
-    def tranship_constraint_rule(model, v):
+    def tranship_constraint_rule(model, v):  # flow into hub v = flow out of hub v
         return sum(model.x[i, j] for (i, j) in model.Edges if j == v) - sum(model.x[i, j] for (i, j) in model.Edges if i == v) == 0
 
     model.objective = Objective(rule=objective_rule, sense=minimize)
