@@ -328,26 +328,28 @@ plt.tight_layout()
 plt.show()
 
 # %% [markdown]
-# ## 10. Key Takeaways
+# ## 11. Key Takeaways
 #
 # ### Approach Used: Pre-Computed Demand
 # - **Assumption**: Demand allocation fixed (calculated assuming all stores open)
-# - **Model**: Simple binary ILP (80 variables, 0 constraints)
+# - **Model**: Simple binary ILP (80 binary variables, no constraints: each store is opened if its stand-alone profit is positive)
 # - **Pros**: Fast to solve, easy to implement
 # - **Cons**: Less accurate (doesn't account for dynamic demand reallocation)
 #
-# ### Results
-# - Opening all stores: £X profit
-# - Optimized: Open Y stores → £Z profit
-# - Improvement: £W saved
+# ### Results (TEST001)
+# - Opening all 80 stores: about £7.55M profit (opening costs £6.48M)
+# - Optimised: open 55 stores → about £8.80M profit
+# - Improvement: about £1.26M (+16.6%), with 25 fewer stores
 #
 # ### Insights
-# 1. **ML forecasting critical**: ~35% of zones needed demand prediction
+# 1. **ML forecasting needed**: 104 of 300 zones (about 35%) had no demand value. The training R² of 0.873 printed above is measured on the training data; on held-out data (5-fold cross-validation) the forest explains far less of the variation, so treat the forecasts as uncertain.
 # 2. **Not all stores should open**: Opening all wastes capacity and incurs unnecessary costs
 # 3. **Selective reopening**: Only stores with high demand/low cost should open
-# 4. **Robust to uncertainty**: ±10% demand variation changes profit by X% but decision is stable
+# 4. **Sensitivity**: with demand 10% lower or higher the plan opens 53 to 56 stores and profit ranges from about £7.48M to £10.13M; most of the decision is stable
 #
 # ### Limitations
 # - Demand allocation is **approximated** (assumes all stores open during pre-computation)
-# - More sophisticated model (embedded gravity) would give truly optimal solution
+# - The service (distance) cost per unit-km is loaded but not included in this simple version
+# - About half of the total zone demand (48,700 of 95,948 units) is within some store's service radius; the rest cannot be served by any store
+# - Only one scenario type (demand ±10%) is analysed here; the brief asks for at least two scenarios
 # - No budget constraints or coverage requirements included

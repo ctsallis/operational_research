@@ -41,7 +41,7 @@ to GitHub. On a computer you can also generate a dataset directly:
 | Order | Notebook (script) | Approach |
 |---|---|---|
 | 1 | `solutions/notebook_solution_simple.ipynb` (`.py`) | Random-forest forecast → demand allocated once (all stores open) → each store's stand-alone profit → binary ILP; ±10% demand sensitivity. The minimum acceptable modelling chain |
-| 2 | `solutions/notebook_solution_advanced.ipynb` (`.py`) | Same forecast → gravity allocation inside a MILP, so cannibalisation responds to which stores open; compared with the simple result. What a top-band answer looks like |
+| 2 | `solutions/notebook_solution_advanced.ipynb` (`.py`) | Same forecast → zone-to-store demand flows decided inside a MILP, so customers of a closed store move to another open store within reach; compared with the simple result. A fuller modelling chain (see the limitations in its Key Takeaways) |
 
 Both generate the data for the dummy ID `TEST001` into `solutions/data/` (git-ignored), then forecast,
 optimise with HiGHS and plot; under 30 seconds each. They run on the
@@ -86,8 +86,9 @@ Justification 15, Technical Quality 5, Executive Communication (slides + video) 
 `tools/variation-analysis-report.md` explains why personalised datasets lead to different optimal solutions:
 read it before answering "why is my answer different from my friend's?". For a new cohort with a fresh
 pool, use a new seed, copy the four files into **both** `starter/base_data/` and `solutions/base_data/`,
-re-run both model notebooks and the checks (and update the seed used in
-`tools/tests/test_test_and_part_b_answer_files.py`).
+re-run both model notebooks and the checks (the check in
+`../tools/tests/test_test_and_part_b_answer_files.py` rebuilds the pool with `create_base_data.py`'s
+default seed, so change that default to the new seed too).
 
 ## Files
 
